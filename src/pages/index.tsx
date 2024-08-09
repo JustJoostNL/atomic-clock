@@ -36,7 +36,7 @@ export default function Index() {
 
     const interval = setInterval(() => {
       setTime(getInterpolatedTime());
-    }, 100);
+    }, 50);
 
     return () => clearInterval(interval);
   }, [timeData, getInterpolatedTime]);
@@ -44,9 +44,12 @@ export default function Index() {
   return (
     <Container
       sx={{
-        display: "grid",
-        placeItems: "center",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
         height: "100vh",
+        textAlign: "center", // Center text horizontally
       }}
     >
       <Typography
@@ -55,7 +58,12 @@ export default function Index() {
         align="center"
         justifySelf="center"
       >
-        {time?.toLocaleTimeString()}
+        {time?.toLocaleTimeString(undefined, {
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+          fractionalSecondDigits: 3,
+        })}
       </Typography>
       {debug && <JSONTree data={timeData} />}
     </Container>
