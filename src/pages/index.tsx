@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Container, Switch, Typography } from "@mui/material";
+import { Container, Typography } from "@mui/material";
 import { JSONTree } from "react-json-tree";
 import useSWR from "swr";
 import { useDebug } from "@/hooks/useDebug";
@@ -19,7 +19,7 @@ async function getTime(): Promise<{ timestamp: Date; time: Date }> {
 
 export default function Index() {
   const debug = useDebug();
-  const { config, updateConfig } = useConfig();
+  const { config } = useConfig();
   const [time, setTime] = useState<Date | null>(null);
 
   const { data: timeData } = useSWR("time", getTime, {
@@ -80,11 +80,6 @@ export default function Index() {
         {displayedTime}
       </Typography>
       {debug && <JSONTree data={{ timeData, config }} />}
-
-      <Switch
-        checked={config.showMs}
-        onChange={() => updateConfig({ showMs: !config.showMs })}
-      />
     </Container>
   );
 }
