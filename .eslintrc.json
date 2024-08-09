@@ -34,7 +34,7 @@
         "usePrettierrc": true
       }
     ],
-    "linebreak-style": ["warn", "windows"],
+    "linebreak-style": ["warn", "unix"],
     "quotes": ["warn", "double"],
     "semi": ["error", "always"],
     "object-curly-spacing": ["warn", "always"],
