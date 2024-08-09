@@ -1,8 +1,12 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { Container, Typography } from "@mui/material";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { Container, Switch, Typography } from "@mui/material";
 import { JSONTree } from "react-json-tree";
 import useSWR from "swr";
 import { useDebug } from "@/hooks/useDebug";
+import { useConfig } from "@/hooks/useConfig";
+
+const NTP_INTERVAL = 64 * 1000; // 64 seconds
+const INTERPOLATION_INTERVAL = 10; // 10 milliseconds
 
 async function getTime(): Promise<{ timestamp: Date; time: Date }> {
   const res = await fetch("/api/clock");
@@ -15,10 +19,12 @@ async function getTime(): Promise<{ timestamp: Date; time: Date }> {
 
 export default function Index() {
   const debug = useDebug();
+  const { config, updateConfig } = useConfig();
   const [time, setTime] = useState<Date | null>(null);
 
   const { data: timeData } = useSWR("time", getTime, {
-    refreshInterval: 1000,
+    refreshInterval: NTP_INTERVAL,
+    revalidateOnFocus: false,
   });
 
   const getInterpolatedTime = useCallback(() => {
@@ -31,12 +37,26 @@ export default function Index() {
     return interpolatedTime;
   }, [timeData]);
 
+  const displayedTime = useMemo(
+    () =>
+      time
+        ?.toLocaleTimeString(undefined, {
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+          fractionalSecondDigits: 3,
+          hour12: false,
+        })
+        .replace(",", "."),
+    [time],
+  );
+
   useEffect(() => {
     if (!timeData) return;
 
     const interval = setInterval(() => {
       setTime(getInterpolatedTime());
-    }, 50);
+    }, INTERPOLATION_INTERVAL);
 
     return () => clearInterval(interval);
   }, [timeData, getInterpolatedTime]);
@@ -49,23 +69,22 @@ export default function Index() {
         justifyContent: "center",
         alignItems: "center",
         height: "100vh",
-        textAlign: "center", // Center text horizontally
       }}
     >
       <Typography
-        fontSize={300}
         fontWeight={700}
+        fontSize={100}
         align="center"
-        justifySelf="center"
+        alignContent="center"
       >
-        {time?.toLocaleTimeString(undefined, {
-          hour: "2-digit",
-          minute: "2-digit",
-          second: "2-digit",
-          fractionalSecondDigits: 3,
-        })}
+        {displayedTime}
       </Typography>
-      {debug && <JSONTree data={timeData} />}
+      {debug && <JSONTree data={{ timeData, config }} />}
+
+      <Switch
+        checked={config.showMs}
+        onChange={() => updateConfig({ showMs: !config.showMs })}
+      />
     </Container>
   );
 }

@@ -2,6 +2,7 @@ import Head from "next/head";
 import React from "react";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { theme } from "@/lib/theme/theme";
+import { ConfigProvider } from "@/hooks/useConfig";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -24,10 +25,12 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         <link rel="icon" type="image/png" sizes="512x512" href="/icon.png" />
         <link rel="manifest" href="/manifest.json" />
       </Head>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        {children}
-      </ThemeProvider>
+      <ConfigProvider>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          {children}
+        </ThemeProvider>
+      </ConfigProvider>
     </>
   );
 };
