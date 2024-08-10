@@ -19,7 +19,8 @@ export const AnalogClock: FC<IProps> = ({ date, size = 200 }) => {
 
   const hoursAngle = hours * 30 + minutes * 0.5;
   const minutesAngle = minutes * 6;
-  const secondsAngle = (seconds + milliseconds / 1000) * 6;
+  const secondsAngle =
+    (seconds + (config.smoothSecondsHand ? milliseconds / 1000 : 0)) * 6;
   const millisecondsAngle = milliseconds * 0.36;
 
   const getNumberPosition = useCallback((number: number) => {
@@ -47,6 +48,7 @@ export const AnalogClock: FC<IProps> = ({ date, size = 200 }) => {
             theme.palette.background.default,
           )}
         />
+
         {Array.from({ length: 12 }, (_, i) => i + 1).map((number) => {
           const { x, y } = getNumberPosition(number);
           return (
@@ -66,6 +68,7 @@ export const AnalogClock: FC<IProps> = ({ date, size = 200 }) => {
             </text>
           );
         })}
+
         <line
           x1="50"
           y1="50"
@@ -75,6 +78,7 @@ export const AnalogClock: FC<IProps> = ({ date, size = 200 }) => {
           strokeWidth="2"
           transform={`rotate(${hoursAngle} 50 50)`}
         />
+
         <line
           x1="50"
           y1="50"
@@ -84,6 +88,7 @@ export const AnalogClock: FC<IProps> = ({ date, size = 200 }) => {
           strokeWidth="1"
           transform={`rotate(${minutesAngle} 50 50)`}
         />
+
         {!config.hideSecondsHand && (
           <line
             x1="50"
@@ -95,6 +100,7 @@ export const AnalogClock: FC<IProps> = ({ date, size = 200 }) => {
             transform={`rotate(${secondsAngle} 50 50)`}
           />
         )}
+
         {!config.hideMillisecondsHand && (
           <line
             x1="50"

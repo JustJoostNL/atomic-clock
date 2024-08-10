@@ -11,6 +11,7 @@ export const defaultConfig: IConfig = {
   useAnalogClock: false,
   hideMillisecondsHand: false,
   hideSecondsHand: false,
+  smoothSecondsHand: true,
   secondsHandColor: { r: 255, g: 255, b: 255 },
   minutesHandColor: { r: 255, g: 255, b: 255 },
   hoursHandColor: { r: 255, g: 255, b: 255 },

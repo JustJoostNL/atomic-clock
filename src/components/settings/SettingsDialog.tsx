@@ -8,19 +8,16 @@ import {
   styled,
 } from "@mui/material";
 import { FC } from "react";
-import { ShowMsListItem } from "./ShowMsListItem";
-import { FractionalSecondDigitsListItem } from "./FractionalSecondDigitsListItem";
-import { TextColorListItem } from "./TextColorListItem";
-import { BackgroundColorListItem } from "./BackgroundColorListItem";
-import { Use12HourFormatListItem } from "./Use12HourFormatListItem";
 import { FontWeightListItem } from "./FontWeightListItem";
 import { FontSizeMultiplierListItem } from "./FontSizeMultiplierListItem";
-import { UseAnalogClockListItem } from "./UseAnalogClockListItem";
-import { HideMillisecondsHandListItem } from "./HideMillisecondsHandListItem";
-import { HideSecondsHand } from "./HideSecondsHand";
+import { ColorListItem } from "./ColorListItem";
+import { SettingsSwitchListItem } from "./SettingsSwitchListItem";
+import { FractionalSecondDigitsListItem } from "./FractionalSecondDigitsListItem";
 
 const StyledListSubheader = styled(ListSubheader)({
   backgroundColor: "rgba(0, 0, 0, 0.5)",
+  position: "static",
+  color: "white",
 });
 
 interface IProps {
@@ -33,22 +30,79 @@ export const SettingsDialog: FC<IProps> = ({ open, onClose }) => {
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
       <DialogTitle>Settings</DialogTitle>
 
-      <DialogContent>
+      <DialogContent
+        sx={{
+          maxHeight: "calc(100vh - 300px)",
+        }}
+      >
         <StyledListSubheader>Time format</StyledListSubheader>
-        <ShowMsListItem />
-        <Use12HourFormatListItem />
+        <SettingsSwitchListItem
+          primary="Show milliseconds"
+          secondary="If enabled, milliseconds will be displayed in the clock"
+          configItem="showMilliseconds"
+        />
+        <SettingsSwitchListItem
+          primary="Use 12-hour format"
+          secondary="If enabled, the clock will use a 12-hour format"
+          configItem="use12HourFormat"
+        />
         <FractionalSecondDigitsListItem />
 
         <StyledListSubheader>Appearance</StyledListSubheader>
         <FontSizeMultiplierListItem />
         <FontWeightListItem />
-        <TextColorListItem />
-        <BackgroundColorListItem />
+        <ColorListItem
+          primary="Text color"
+          secondary="Changes the color of the clock text"
+          configItem="textColor"
+        />
+        <ColorListItem
+          primary="Background color"
+          secondary="Changes the color of the clock background"
+          configItem="backgroundColor"
+        />
 
         <StyledListSubheader>Analog Clock</StyledListSubheader>
-        <UseAnalogClockListItem />
-        <HideSecondsHand />
-        <HideMillisecondsHandListItem />
+        <SettingsSwitchListItem
+          primary="Use analog clock"
+          secondary="If enabled, the clock will be displayed as an analog clock"
+          configItem="useAnalogClock"
+        />
+        <SettingsSwitchListItem
+          primary="Hide seconds hand"
+          secondary="If enabled, the seconds hand will not be displayed in the clock"
+          configItem="hideSecondsHand"
+        />
+        <SettingsSwitchListItem
+          primary="Hide milliseconds hand"
+          secondary="If enabled, the milliseconds hand will not be displayed in the clock"
+          configItem="hideMillisecondsHand"
+        />
+        <SettingsSwitchListItem
+          primary="Smooth seconds hand"
+          secondary="If enabled, the seconds hand will move smoothly"
+          configItem="smoothSecondsHand"
+        />
+        <ColorListItem
+          primary="Seconds hand color"
+          secondary="Changes the color of the seconds hand in the analog clock"
+          configItem="secondsHandColor"
+        />
+        <ColorListItem
+          primary="Minutes hand color"
+          secondary="Changes the color of the minutes hand in the analog clock"
+          configItem="minutesHandColor"
+        />
+        <ColorListItem
+          primary="Hours hand color"
+          secondary="Changes the color of the hours hand in the analog clock"
+          configItem="hoursHandColor"
+        />
+        <ColorListItem
+          primary="Milliseconds hand color"
+          secondary="Changes the color of the milliseconds hand in the analog clock"
+          configItem="millisecondsHandColor"
+        />
       </DialogContent>
 
       <DialogActions>

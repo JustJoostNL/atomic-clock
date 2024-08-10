@@ -41,7 +41,7 @@ export default function Index() {
     revalidateOnFocus: false,
   });
 
-  useHotkeys("s", () => setSettingsVisible(true));
+  useHotkeys("s", () => setSettingsVisible((prev) => !prev));
 
   const getInterpolatedTime = useCallback(() => {
     if (!timeData) return new Date();
