@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Container, IconButton, Typography } from "@mui/material";
+import { Container, IconButton, Typography, useTheme } from "@mui/material";
 import { Settings } from "@mui/icons-material";
 import { JSONTree } from "react-json-tree";
 import useSWR from "swr";
@@ -19,9 +19,10 @@ async function getTime(): Promise<{ timestamp: Date; time: Date }> {
 }
 
 export default function Index() {
+  const { config } = useConfig();
   const debug = useDebug();
   const settingsButtonVisible = useVisibleOnMouseMove(3000);
-  const { config } = useConfig();
+  const theme = useTheme();
   const [time, setTime] = useState<Date | null>(null);
   const [settingsVisible, setSettingsVisible] = useState(false);
 
@@ -66,50 +67,58 @@ export default function Index() {
     [config.fractionalSecondDigits, config.showMilliseconds, time],
   );
 
+  const bgColor = `rgb(${config.backgroundColor.r}, ${config.backgroundColor.g}, ${config.backgroundColor.b})`;
+
   const cleanTimeLength = displayedTime
     ? displayedTime.replace(/:/g, "").length
     : 1;
 
   return (
-    <Container
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-        padding: "0 20px",
-        boxSizing: "border-box",
-      }}
-    >
-      <SettingsDialog
-        open={settingsVisible}
-        onClose={() => setSettingsVisible(false)}
-      />
-
-      {settingsButtonVisible && (
-        <IconButton
-          onClick={() => setSettingsVisible(true)}
-          size="large"
-          sx={{ position: "absolute", top: 5, right: 5 }}
-        >
-          <Settings fontSize="large" />
-        </IconButton>
-      )}
-
-      <Typography
-        fontWeight={700}
-        color={`rgb(${config.textColor.r}, ${config.textColor.g}, ${config.textColor.b})`}
-        fontSize={`${(120 / (cleanTimeLength - 0.5)) * 1}vw`}
-        align="center"
+    <div style={{ backgroundColor: bgColor }}>
+      <Container
         sx={{
-          overflow: "hidden",
-          whiteSpace: "nowrap",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          width: "100%",
+          height: "100vh",
+          padding: "0 20px",
+          boxSizing: "border-box",
         }}
       >
-        {displayedTime}
-      </Typography>
-      {debug && <JSONTree data={{ timeData, config }} />}
-    </Container>
+        <SettingsDialog
+          open={settingsVisible}
+          onClose={() => setSettingsVisible(false)}
+        />
+
+        {settingsButtonVisible && (
+          <IconButton
+            onClick={() => setSettingsVisible(true)}
+            size="large"
+            sx={{ position: "absolute", top: 5, right: 5 }}
+          >
+            <Settings
+              fontSize="large"
+              htmlColor={theme.palette.getContrastText(bgColor)}
+            />
+          </IconButton>
+        )}
+
+        <Typography
+          fontWeight={700}
+          color={`rgb(${config.textColor.r}, ${config.textColor.g}, ${config.textColor.b})`}
+          fontSize={`${(120 / (cleanTimeLength - 0.5)) * 1}vw`}
+          align="center"
+          sx={{
+            overflow: "hidden",
+            whiteSpace: "nowrap",
+          }}
+        >
+          {displayedTime}
+        </Typography>
+        {debug && <JSONTree data={{ timeData, config }} />}
+      </Container>
+    </div>
   );
 }

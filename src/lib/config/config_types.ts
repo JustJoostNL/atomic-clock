@@ -4,4 +4,5 @@ export interface IConfig {
   showMilliseconds: boolean;
   fractionalSecondDigits: 1 | 2 | 3;
   textColor: RgbColor;
+  backgroundColor: RgbColor;
 }

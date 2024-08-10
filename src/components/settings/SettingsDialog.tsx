@@ -9,6 +9,7 @@ import { FC } from "react";
 import { ShowMsListItem } from "./ShowMsListItem";
 import { FractionalSecondDigitsListItem } from "./FractionalSecondDigitsListItem";
 import { TextColorListItem } from "./TextColorListItem";
+import { BackgroundColorListItem } from "./BackgroundColorListItem";
 
 interface IProps {
   open: boolean;
@@ -24,6 +25,7 @@ export const SettingsDialog: FC<IProps> = ({ open, onClose }) => {
         <ShowMsListItem />
         <FractionalSecondDigitsListItem />
         <TextColorListItem />
+        <BackgroundColorListItem />
       </DialogContent>
 
       <DialogActions>

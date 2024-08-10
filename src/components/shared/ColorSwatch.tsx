@@ -28,71 +28,69 @@ export const ColorSwatch: React.FC<IProps> = ({ color, onChange }) => {
   );
 
   return (
-    <>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "flex-start",
+        justifyContent: "flex-end",
+      }}
+    >
+      <RgbColorPicker
+        draggable
+        style={{ width: 260, height: 150, marginRight: 5 }}
+        color={color}
+        onChange={handlePickerChange}
+      />
+
       <Box
         sx={{
           display: "flex",
-          flexDirection: "column",
-          alignItems: "flex-start",
-          justifyContent: "flex-end",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "center",
+          mt: 3,
         }}
       >
-        <RgbColorPicker
-          draggable
-          style={{ width: 260, height: 150, marginRight: 5 }}
-          color={color}
-          onChange={handlePickerChange}
+        <TextField
+          label="Red"
+          value={color.r}
+          onChange={handleInputChange}
+          inputProps={{
+            min: 0,
+            max: 100,
+            step: 1,
+            type: "number",
+          }}
+          sx={{ width: 80, mr: 1 }}
         />
 
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "center",
-            mt: 3,
+        <TextField
+          label="Green"
+          value={color.g}
+          onChange={handleInputChange}
+          inputProps={{
+            min: 0,
+            max: 100,
+            step: 1,
+            type: "number",
           }}
-        >
-          <TextField
-            label="Red"
-            value={color.r}
-            onChange={handleInputChange}
-            inputProps={{
-              min: 0,
-              max: 100,
-              step: 1,
-              type: "number",
-            }}
-            sx={{ width: 80, mr: 1 }}
-          />
+          sx={{ width: 80 }}
+        />
 
-          <TextField
-            label="Green"
-            value={color.g}
-            onChange={handleInputChange}
-            inputProps={{
-              min: 0,
-              max: 100,
-              step: 1,
-              type: "number",
-            }}
-            sx={{ width: 80 }}
-          />
-
-          <TextField
-            label="Blue"
-            value={color.b}
-            onChange={handleInputChange}
-            inputProps={{
-              min: 0,
-              max: 100,
-              step: 1,
-              type: "number",
-            }}
-            sx={{ width: 80, ml: 1 }}
-          />
-        </Box>
+        <TextField
+          label="Blue"
+          value={color.b}
+          onChange={handleInputChange}
+          inputProps={{
+            min: 0,
+            max: 100,
+            step: 1,
+            type: "number",
+          }}
+          sx={{ width: 80, ml: 1 }}
+        />
       </Box>
-    </>
+    </Box>
   );
 };
