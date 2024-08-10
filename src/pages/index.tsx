@@ -57,12 +57,18 @@ export default function Index() {
           hour: "2-digit",
           minute: "2-digit",
           second: "2-digit",
-          fractionalSecondDigits: config.showMs ? 3 : undefined,
+          fractionalSecondDigits: config.showMilliseconds
+            ? config.fractionalSecondDigits
+            : undefined,
           hour12: false,
         })
         .replace(",", "."),
-    [config.showMs, time],
+    [config.fractionalSecondDigits, config.showMilliseconds, time],
   );
+
+  const cleanTimeLength = displayedTime
+    ? displayedTime.replace(/:/g, "").length
+    : 1;
 
   return (
     <Container
@@ -72,6 +78,8 @@ export default function Index() {
         justifyContent: "center",
         alignItems: "center",
         height: "100vh",
+        padding: "0 20px",
+        boxSizing: "border-box",
       }}
     >
       <SettingsDialog
@@ -91,9 +99,13 @@ export default function Index() {
 
       <Typography
         fontWeight={700}
-        fontSize={100}
+        color={`rgb(${config.textColor.r}, ${config.textColor.g}, ${config.textColor.b})`}
+        fontSize={`${(120 / (cleanTimeLength - 0.5)) * 1}vw`}
         align="center"
-        alignContent="center"
+        sx={{
+          overflow: "hidden",
+          whiteSpace: "nowrap",
+        }}
       >
         {displayedTime}
       </Typography>

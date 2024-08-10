@@ -7,6 +7,8 @@ import {
 } from "@mui/material";
 import { FC } from "react";
 import { ShowMsListItem } from "./ShowMsListItem";
+import { FractionalSecondDigitsListItem } from "./FractionalSecondDigitsListItem";
+import { TextColorListItem } from "./TextColorListItem";
 
 interface IProps {
   open: boolean;
@@ -20,6 +22,8 @@ export const SettingsDialog: FC<IProps> = ({ open, onClose }) => {
 
       <DialogContent>
         <ShowMsListItem />
+        <FractionalSecondDigitsListItem />
+        <TextColorListItem />
       </DialogContent>
 
       <DialogActions>

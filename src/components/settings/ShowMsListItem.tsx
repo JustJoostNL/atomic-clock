@@ -12,8 +12,10 @@ export const ShowMsListItem: FC = () => {
         secondary="If enabled, milliseconds will be displayed in the clock"
       />
       <Switch
-        checked={config.showMs}
-        onChange={() => updateConfig({ showMs: !config.showMs })}
+        checked={config.showMilliseconds}
+        onChange={() =>
+          updateConfig({ showMilliseconds: !config.showMilliseconds })
+        }
       />
     </ListItem>
   );
