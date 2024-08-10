@@ -5,8 +5,7 @@ export const theme = responsiveFontSizes(
   createTheme({
     typography: {
       fontFamily:
-        // eslint-disable-next-line quotes
-        '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif',
+        "'Segoe UI', Roboto Mono, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif",
       body1: {
         fontSize: "16px",
         letterSpacing: "-0.05px",

@@ -5,4 +5,5 @@ export interface IConfig {
   fractionalSecondDigits: 1 | 2 | 3;
   textColor: RgbColor;
   backgroundColor: RgbColor;
+  use12HourFormat: boolean;
 }

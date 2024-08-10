@@ -10,6 +10,7 @@ import { ShowMsListItem } from "./ShowMsListItem";
 import { FractionalSecondDigitsListItem } from "./FractionalSecondDigitsListItem";
 import { TextColorListItem } from "./TextColorListItem";
 import { BackgroundColorListItem } from "./BackgroundColorListItem";
+import { Use12HourFormatListItem } from "./Use12HourFormatListItem";
 
 interface IProps {
   open: boolean;
@@ -23,6 +24,7 @@ export const SettingsDialog: FC<IProps> = ({ open, onClose }) => {
 
       <DialogContent>
         <ShowMsListItem />
+        <Use12HourFormatListItem />
         <FractionalSecondDigitsListItem />
         <TextColorListItem />
         <BackgroundColorListItem />

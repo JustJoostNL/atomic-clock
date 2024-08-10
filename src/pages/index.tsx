@@ -1,5 +1,11 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Container, IconButton, Typography, useTheme } from "@mui/material";
+import {
+  Box,
+  Container,
+  IconButton,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import { Settings } from "@mui/icons-material";
 import { JSONTree } from "react-json-tree";
 import useSWR from "swr";
@@ -61,10 +67,15 @@ export default function Index() {
           fractionalSecondDigits: config.showMilliseconds
             ? config.fractionalSecondDigits
             : undefined,
-          hour12: false,
+          hour12: config.use12HourFormat,
         })
         .replace(",", "."),
-    [config.fractionalSecondDigits, config.showMilliseconds, time],
+    [
+      config.fractionalSecondDigits,
+      config.showMilliseconds,
+      config.use12HourFormat,
+      time,
+    ],
   );
 
   const bgColor = `rgb(${config.backgroundColor.r}, ${config.backgroundColor.g}, ${config.backgroundColor.b})`;
@@ -117,8 +128,10 @@ export default function Index() {
         >
           {displayedTime}
         </Typography>
-        {debug && <JSONTree data={{ timeData, config }} />}
       </Container>
+      <Box sx={{ width: "100%", position: "absolute", bottom: 0 }}>
+        {debug && <JSONTree data={{ timeData, config }} />}
+      </Box>
     </div>
   );
 }
