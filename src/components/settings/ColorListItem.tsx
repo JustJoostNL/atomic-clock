@@ -21,7 +21,8 @@ interface IProps {
     | "secondsHandColor"
     | "millisecondsHandColor"
     | "textColor"
-    | "backgroundColor";
+    | "backgroundColor"
+    | "clockDigitsColor";
 }
 
 export const ColorListItem: FC<IProps> = ({

@@ -1,10 +1,10 @@
 import Head from "next/head";
-import React from "react";
+import React, { ReactNode } from "react";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { theme } from "@/lib/theme/theme";
 import { ConfigProvider } from "@/hooks/useConfig";
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
+const Layout = ({ children }: { children: ReactNode }) => {
   return (
     <>
       <Head>

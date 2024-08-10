@@ -1,6 +1,6 @@
 import { Box, TextField } from "@mui/material";
 import { RgbColor, RgbColorPicker } from "react-colorful";
-import React, { ChangeEvent, useCallback } from "react";
+import React, { ChangeEvent, FC, useCallback } from "react";
 
 interface IProps {
   color: {
@@ -11,7 +11,7 @@ interface IProps {
   onChange?: (rgbColor: { r: number; g: number; b: number }) => void;
 }
 
-export const ColorSwatch: React.FC<IProps> = ({ color, onChange }) => {
+export const ColorSwatch: FC<IProps> = ({ color, onChange }) => {
   const handlePickerChange = useCallback(
     (newColor: RgbColor) => {
       onChange?.(newColor);

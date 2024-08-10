@@ -8,6 +8,21 @@ interface IProps {
   size?: string | number;
 }
 
+const numberDeltaMap: Record<number, { dx: number; dy: number }> = {
+  1: { dx: -1, dy: 9 },
+  2: { dx: -6, dy: 6 },
+  3: { dx: -5, dy: 3 },
+  4: { dx: -5, dy: 0 },
+  5: { dx: -2, dy: -3 },
+  6: { dx: 0, dy: -3 },
+  7: { dx: 2, dy: -3 },
+  8: { dx: 4, dy: 1 },
+  9: { dx: 5, dy: 3 },
+  10: { dx: 7, dy: 6 },
+  11: { dx: 3, dy: 10 },
+  12: { dx: 0, dy: 10 },
+};
+
 export const AnalogClock: FC<IProps> = ({ date, size = 200 }) => {
   const { config } = useConfig();
   const theme = useTheme();
@@ -51,6 +66,7 @@ export const AnalogClock: FC<IProps> = ({ date, size = 200 }) => {
 
         {Array.from({ length: 12 }, (_, i) => i + 1).map((number) => {
           const { x, y } = getNumberPosition(number);
+
           return (
             <text
               key={number}
@@ -58,14 +74,37 @@ export const AnalogClock: FC<IProps> = ({ date, size = 200 }) => {
               y={y}
               textAnchor="middle"
               alignmentBaseline="middle"
-              fill={theme.palette.getContrastText(
-                theme.palette.background.default,
-              )}
+              fill={Color(config.clockDigitsColor).rgb().string()}
               fontSize="10"
-              dy="0.3em"
+              fontWeight="bold"
+              dx={numberDeltaMap[number].dx}
+              dy={numberDeltaMap[number].dy}
             >
               {number}
             </text>
+          );
+        })}
+
+        {Array.from({ length: 60 }, (_, i) => i + 1).map((number) => {
+          const angle = number * 6 - 90;
+          const x1 = 50 + 40 * Math.cos((angle * Math.PI) / 180);
+          const y1 = 50 + 40 * Math.sin((angle * Math.PI) / 180);
+          const x2 = 50 + 42 * Math.cos((angle * Math.PI) / 180);
+          const y2 = 50 + 42 * Math.sin((angle * Math.PI) / 180);
+          const isThick = number % 5 === 0;
+
+          return (
+            <line
+              key={number}
+              x1={x1}
+              y1={y1}
+              x2={x2}
+              y2={y2}
+              stroke={theme.palette.getContrastText(
+                theme.palette.background.default,
+              )}
+              strokeWidth={isThick ? 1.5 : 0.5}
+            />
           );
         })}
 

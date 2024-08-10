@@ -16,4 +16,5 @@ export const defaultConfig: IConfig = {
   minutesHandColor: { r: 255, g: 255, b: 255 },
   hoursHandColor: { r: 255, g: 255, b: 255 },
   millisecondsHandColor: { r: 255, g: 0, b: 0 },
+  clockDigitsColor: { r: 255, g: 255, b: 255 },
 };

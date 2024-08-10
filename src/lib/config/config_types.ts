@@ -16,4 +16,5 @@ export interface IConfig {
   minutesHandColor: RgbColor;
   hoursHandColor: RgbColor;
   millisecondsHandColor: RgbColor;
+  clockDigitsColor: RgbColor;
 }

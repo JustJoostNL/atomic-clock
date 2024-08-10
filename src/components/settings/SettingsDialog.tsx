@@ -30,11 +30,7 @@ export const SettingsDialog: FC<IProps> = ({ open, onClose }) => {
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
       <DialogTitle>Settings</DialogTitle>
 
-      <DialogContent
-        sx={{
-          maxHeight: "calc(100vh - 300px)",
-        }}
-      >
+      <DialogContent sx={{ maxHeight: "calc(100vh - 300px)" }}>
         <StyledListSubheader>Time format</StyledListSubheader>
         <SettingsSwitchListItem
           primary="Show milliseconds"
@@ -102,6 +98,11 @@ export const SettingsDialog: FC<IProps> = ({ open, onClose }) => {
           primary="Milliseconds hand color"
           secondary="Changes the color of the milliseconds hand in the analog clock"
           configItem="millisecondsHandColor"
+        />
+        <ColorListItem
+          primary="Clock digits color"
+          secondary="Changes the color of the digits in the analog clock"
+          configItem="clockDigitsColor"
         />
       </DialogContent>
 
