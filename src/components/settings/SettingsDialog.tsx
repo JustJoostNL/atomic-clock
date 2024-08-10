@@ -6,7 +6,7 @@ import {
   DialogTitle,
 } from "@mui/material";
 import { FC } from "react";
-import { ShowMsListItem } from "./ShowMSListItem";
+import { ShowMsListItem } from "./ShowMsListItem";
 
 interface IProps {
   open: boolean;
