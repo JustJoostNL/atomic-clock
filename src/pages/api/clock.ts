@@ -13,7 +13,7 @@ export default async function handler(
       if (err instanceof Error) return res.status(500).send(err.message);
       return res.status(500).send(err);
     } else {
-      return res.status(200).json({ date: date?.toISOString() });
+      return res.status(200).json({ now: date?.toISOString() });
     }
   };
 
