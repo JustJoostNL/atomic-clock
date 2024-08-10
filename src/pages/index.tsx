@@ -13,6 +13,7 @@ import { useDebug } from "@/hooks/useDebug";
 import { useConfig } from "@/hooks/useConfig";
 import { useVisibleOnMouseMove } from "@/hooks/useVisibleOnMouseMove";
 import { SettingsDialog } from "@/components/settings/SettingsDialog";
+import { AnalogClock } from "@/components/shared/AnalogClock";
 
 const NTP_INTERVAL = 64 * 1000; // 64 seconds
 const INTERPOLATION_INTERVAL = 10; // 10 milliseconds
@@ -79,6 +80,7 @@ export default function Index() {
   );
 
   const bgColor = `rgb(${config.backgroundColor.r}, ${config.backgroundColor.g}, ${config.backgroundColor.b})`;
+  const textColor = `rgb(${config.textColor.r}, ${config.textColor.g}, ${config.textColor.b})`;
 
   const cleanTimeLength = displayedTime
     ? displayedTime.replace(/:/g, "").length
@@ -116,18 +118,27 @@ export default function Index() {
           </IconButton>
         )}
 
-        <Typography
-          fontWeight={700}
-          color={`rgb(${config.textColor.r}, ${config.textColor.g}, ${config.textColor.b})`}
-          fontSize={`${(120 / (cleanTimeLength - 0.5)) * 1}vw`}
-          align="center"
-          sx={{
-            overflow: "hidden",
-            whiteSpace: "nowrap",
-          }}
-        >
-          {displayedTime}
-        </Typography>
+        {config.useAnalogClock && time && (
+          <AnalogClock
+            date={time}
+            size={`${(window.innerWidth < window.innerHeight ? window.innerWidth : window.innerHeight) * 0.8}`}
+          />
+        )}
+
+        {!config.useAnalogClock && (
+          <Typography
+            fontWeight={config.fontWeight}
+            color={textColor}
+            fontSize={`${(120 / (cleanTimeLength - 0.5)) * config.fontSizeMultiplier}vw`}
+            align="center"
+            sx={{
+              overflow: "hidden",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {displayedTime}
+          </Typography>
+        )}
       </Container>
       <Box sx={{ width: "100%", position: "absolute", bottom: 0 }}>
         {debug && <JSONTree data={{ timeData, config }} />}
