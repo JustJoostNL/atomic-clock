@@ -9,4 +9,10 @@ export interface IConfig {
   backgroundColor: RgbColor;
   use12HourFormat: boolean;
   useAnalogClock: boolean;
+  hideMillisecondsHand: boolean;
+  hideSecondsHand: boolean;
+  secondsHandColor: RgbColor;
+  minutesHandColor: RgbColor;
+  hoursHandColor: RgbColor;
+  millisecondsHandColor: RgbColor;
 }

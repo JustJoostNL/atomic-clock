@@ -16,6 +16,8 @@ import { Use12HourFormatListItem } from "./Use12HourFormatListItem";
 import { FontWeightListItem } from "./FontWeightListItem";
 import { FontSizeMultiplierListItem } from "./FontSizeMultiplierListItem";
 import { UseAnalogClockListItem } from "./UseAnalogClockListItem";
+import { HideMillisecondsHandListItem } from "./HideMillisecondsHandListItem";
+import { HideSecondsHand } from "./HideSecondsHand";
 
 const StyledListSubheader = styled(ListSubheader)({
   backgroundColor: "rgba(0, 0, 0, 0.5)",
@@ -36,13 +38,17 @@ export const SettingsDialog: FC<IProps> = ({ open, onClose }) => {
         <ShowMsListItem />
         <Use12HourFormatListItem />
         <FractionalSecondDigitsListItem />
+
         <StyledListSubheader>Appearance</StyledListSubheader>
         <FontSizeMultiplierListItem />
         <FontWeightListItem />
         <TextColorListItem />
         <BackgroundColorListItem />
-        <StyledListSubheader>Clock type</StyledListSubheader>
+
+        <StyledListSubheader>Analog Clock</StyledListSubheader>
         <UseAnalogClockListItem />
+        <HideSecondsHand />
+        <HideMillisecondsHandListItem />
       </DialogContent>
 
       <DialogActions>

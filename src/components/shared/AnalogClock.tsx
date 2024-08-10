@@ -1,5 +1,7 @@
 import { useTheme } from "@mui/material";
+import Color from "color";
 import { FC, useCallback } from "react";
+import { useConfig } from "@/hooks/useConfig";
 
 interface IProps {
   date: Date;
@@ -7,7 +9,9 @@ interface IProps {
 }
 
 export const AnalogClock: FC<IProps> = ({ date, size = 200 }) => {
+  const { config } = useConfig();
   const theme = useTheme();
+
   const hours = date.getHours();
   const minutes = date.getMinutes();
   const seconds = date.getSeconds();
@@ -67,9 +71,7 @@ export const AnalogClock: FC<IProps> = ({ date, size = 200 }) => {
           y1="50"
           x2="50"
           y2="30"
-          stroke={theme.palette.getContrastText(
-            theme.palette.background.default,
-          )}
+          stroke={Color(config.hoursHandColor).rgb().string()}
           strokeWidth="2"
           transform={`rotate(${hoursAngle} 50 50)`}
         />
@@ -78,32 +80,32 @@ export const AnalogClock: FC<IProps> = ({ date, size = 200 }) => {
           y1="50"
           x2="50"
           y2="20"
-          stroke={theme.palette.getContrastText(
-            theme.palette.background.default,
-          )}
+          stroke={Color(config.minutesHandColor).rgb().string()}
           strokeWidth="1"
           transform={`rotate(${minutesAngle} 50 50)`}
         />
-        <line
-          x1="50"
-          y1="50"
-          x2="50"
-          y2="10"
-          stroke={theme.palette.getContrastText(
-            theme.palette.background.default,
-          )}
-          strokeWidth="0.5"
-          transform={`rotate(${secondsAngle} 50 50)`}
-        />
-        <line
-          x1="50"
-          y1="50"
-          x2="50"
-          y2="10"
-          stroke="red"
-          strokeWidth="0.5"
-          transform={`rotate(${millisecondsAngle} 50 50)`}
-        />
+        {!config.hideSecondsHand && (
+          <line
+            x1="50"
+            y1="50"
+            x2="50"
+            y2="10"
+            stroke={Color(config.secondsHandColor).rgb().string()}
+            strokeWidth="0.5"
+            transform={`rotate(${secondsAngle} 50 50)`}
+          />
+        )}
+        {!config.hideMillisecondsHand && (
+          <line
+            x1="50"
+            y1="50"
+            x2="50"
+            y2="10"
+            stroke={Color(config.millisecondsHandColor).rgb().string()}
+            strokeWidth="0.5"
+            transform={`rotate(${millisecondsAngle} 50 50)`}
+          />
+        )}
       </svg>
     </div>
   );

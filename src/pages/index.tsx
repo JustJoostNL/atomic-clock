@@ -3,17 +3,20 @@ import {
   Box,
   Container,
   IconButton,
+  Tooltip,
   Typography,
   useTheme,
 } from "@mui/material";
 import { Settings } from "@mui/icons-material";
 import { JSONTree } from "react-json-tree";
 import useSWR from "swr";
+import { useHotkeys } from "react-hotkeys-hook";
 import { useDebug } from "@/hooks/useDebug";
 import { useConfig } from "@/hooks/useConfig";
 import { useVisibleOnMouseMove } from "@/hooks/useVisibleOnMouseMove";
 import { SettingsDialog } from "@/components/settings/SettingsDialog";
 import { AnalogClock } from "@/components/shared/AnalogClock";
+import { KeyboardHotkey } from "@/components/shared/KeyboardHotkey";
 
 const NTP_INTERVAL = 64 * 1000; // 64 seconds
 const INTERPOLATION_INTERVAL = 10; // 10 milliseconds
@@ -37,6 +40,8 @@ export default function Index() {
     refreshInterval: NTP_INTERVAL,
     revalidateOnFocus: false,
   });
+
+  useHotkeys("s", () => setSettingsVisible(true));
 
   const getInterpolatedTime = useCallback(() => {
     if (!timeData) return new Date();
@@ -106,16 +111,26 @@ export default function Index() {
         />
 
         {settingsButtonVisible && (
-          <IconButton
-            onClick={() => setSettingsVisible(true)}
-            size="large"
-            sx={{ position: "absolute", top: 5, right: 5 }}
+          <Tooltip
+            arrow
+            placement="left"
+            title={
+              <React.Fragment>
+                Hint: Press <KeyboardHotkey>S</KeyboardHotkey> to open settings
+              </React.Fragment>
+            }
           >
-            <Settings
-              fontSize="large"
-              htmlColor={theme.palette.getContrastText(bgColor)}
-            />
-          </IconButton>
+            <IconButton
+              onClick={() => setSettingsVisible(true)}
+              size="large"
+              sx={{ position: "absolute", top: 10, right: 15 }}
+            >
+              <Settings
+                fontSize="large"
+                htmlColor={theme.palette.getContrastText(bgColor)}
+              />
+            </IconButton>
+          </Tooltip>
         )}
 
         {config.useAnalogClock && time && (
