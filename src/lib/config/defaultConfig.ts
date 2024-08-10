@@ -1,6 +1,8 @@
 import { IConfig } from "./config_types";
 
 export const defaultConfig: IConfig = {
+  timeServer: "time.nist.gov",
+  timezone: "Europe/Amsterdam",
   showMilliseconds: true,
   fractionalSecondDigits: 3,
   fontWeight: 700,
@@ -17,4 +19,6 @@ export const defaultConfig: IConfig = {
   hoursHandColor: { r: 255, g: 255, b: 255 },
   millisecondsHandColor: { r: 255, g: 0, b: 0 },
   clockDigitsColor: { r: 255, g: 255, b: 255 },
+  clockBorderColor: { r: 255, g: 255, b: 255 },
+  clockTickMarksColor: { r: 255, g: 255, b: 255 },
 };

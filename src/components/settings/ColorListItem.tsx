@@ -22,7 +22,9 @@ interface IProps {
     | "millisecondsHandColor"
     | "textColor"
     | "backgroundColor"
-    | "clockDigitsColor";
+    | "clockDigitsColor"
+    | "clockBorderColor"
+    | "clockTickMarksColor";
 }
 
 export const ColorListItem: FC<IProps> = ({

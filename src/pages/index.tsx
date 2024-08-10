@@ -7,7 +7,7 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { Settings } from "@mui/icons-material";
+import { SettingsRounded } from "@mui/icons-material";
 import { JSONTree } from "react-json-tree";
 import useSWR from "swr";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -17,12 +17,15 @@ import { useVisibleOnMouseMove } from "@/hooks/useVisibleOnMouseMove";
 import { SettingsDialog } from "@/components/settings/SettingsDialog";
 import { AnalogClock } from "@/components/shared/AnalogClock";
 import { KeyboardHotkey } from "@/components/shared/KeyboardHotkey";
+import { getConfig } from "@/lib/config/config";
 
 const NTP_INTERVAL = 64 * 1000; // 64 seconds
 const INTERPOLATION_INTERVAL = 10; // 10 milliseconds
 
 async function getTime(): Promise<{ timestamp: Date; time: Date }> {
-  const res = await fetch("/api/clock");
+  const config = getConfig();
+
+  const res = await fetch(`/api/clock?server=${config.timeServer}`);
   const json = await res.json();
 
   return { timestamp: new Date(), time: new Date(json.now) };
@@ -70,6 +73,7 @@ export default function Index() {
           hour: "2-digit",
           minute: "2-digit",
           second: "2-digit",
+          timeZone: config.timezone,
           fractionalSecondDigits: config.showMilliseconds
             ? config.fractionalSecondDigits
             : undefined,
@@ -79,6 +83,7 @@ export default function Index() {
     [
       config.fractionalSecondDigits,
       config.showMilliseconds,
+      config.timezone,
       config.use12HourFormat,
       time,
     ],
@@ -125,7 +130,7 @@ export default function Index() {
               size="large"
               sx={{ position: "absolute", top: 10, right: 15 }}
             >
-              <Settings
+              <SettingsRounded
                 fontSize="large"
                 htmlColor={theme.palette.getContrastText(bgColor)}
               />

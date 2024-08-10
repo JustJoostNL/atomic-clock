@@ -1,10 +1,14 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import ntpClient from "ntp-client";
 
+const fallbackServer = "time.nist.gov";
+
 export default async function handler(
-  _req: NextApiRequest,
+  req: NextApiRequest,
   res: NextApiResponse,
 ) {
+  const { server } = req.query as { server?: string };
+
   const handleOnNetworkTime = (
     err: string | Error | null,
     date: Date | null,
@@ -17,5 +21,5 @@ export default async function handler(
     }
   };
 
-  ntpClient.getNetworkTime("time.nist.gov", 123, handleOnNetworkTime);
+  ntpClient.getNetworkTime(server ?? fallbackServer, 123, handleOnNetworkTime);
 }

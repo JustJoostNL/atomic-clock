@@ -1,4 +1,3 @@
-import { useTheme } from "@mui/material";
 import Color from "color";
 import { FC, useCallback } from "react";
 import { useConfig } from "@/hooks/useConfig";
@@ -25,7 +24,6 @@ const numberDeltaMap: Record<number, { dx: number; dy: number }> = {
 
 export const AnalogClock: FC<IProps> = ({ date, size = 200 }) => {
   const { config } = useConfig();
-  const theme = useTheme();
 
   const hours = date.getHours();
   const minutes = date.getMinutes();
@@ -59,9 +57,7 @@ export const AnalogClock: FC<IProps> = ({ date, size = 200 }) => {
           cy="50"
           r="45"
           fill="none"
-          stroke={theme.palette.getContrastText(
-            theme.palette.background.default,
-          )}
+          stroke={Color(config.clockBorderColor).rgb().string()}
         />
 
         {Array.from({ length: 12 }, (_, i) => i + 1).map((number) => {
@@ -100,9 +96,7 @@ export const AnalogClock: FC<IProps> = ({ date, size = 200 }) => {
               y1={y1}
               x2={x2}
               y2={y2}
-              stroke={theme.palette.getContrastText(
-                theme.palette.background.default,
-              )}
+              stroke={Color(config.clockTickMarksColor).rgb().string()}
               strokeWidth={isThick ? 1.5 : 0.5}
             />
           );

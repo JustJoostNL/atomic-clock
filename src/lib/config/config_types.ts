@@ -1,6 +1,10 @@
 import { RgbColor } from "react-colorful";
 
+export const timezoneList = Intl.supportedValuesOf("timeZone");
+
 export interface IConfig {
+  timeServer: string;
+  timezone: (typeof timezoneList)[number];
   showMilliseconds: boolean;
   fractionalSecondDigits: 1 | 2 | 3;
   textColor: RgbColor;
@@ -17,4 +21,6 @@ export interface IConfig {
   hoursHandColor: RgbColor;
   millisecondsHandColor: RgbColor;
   clockDigitsColor: RgbColor;
+  clockBorderColor: RgbColor;
+  clockTickMarksColor: RgbColor;
 }

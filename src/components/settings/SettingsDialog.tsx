@@ -7,12 +7,16 @@ import {
   ListSubheader,
   styled,
 } from "@mui/material";
-import { FC } from "react";
+import { FC, useCallback } from "react";
 import { FontWeightListItem } from "./FontWeightListItem";
 import { FontSizeMultiplierListItem } from "./FontSizeMultiplierListItem";
 import { ColorListItem } from "./ColorListItem";
 import { SettingsSwitchListItem } from "./SettingsSwitchListItem";
 import { FractionalSecondDigitsListItem } from "./FractionalSecondDigitsListItem";
+import { TimeServerListItem } from "./TimeServerListItem";
+import { TimeZoneListItem } from "./TimeZoneListItem";
+import { useConfig } from "@/hooks/useConfig";
+import { defaultConfig } from "@/lib/config/defaultConfig";
 
 const StyledListSubheader = styled(ListSubheader)({
   backgroundColor: "rgba(0, 0, 0, 0.5)",
@@ -26,11 +30,23 @@ interface IProps {
 }
 
 export const SettingsDialog: FC<IProps> = ({ open, onClose }) => {
+  const { updateConfig } = useConfig();
+
+  const handleResetAll = useCallback(() => {
+    if (confirm("Are you sure you want to reset all settings?")) {
+      updateConfig(defaultConfig);
+    }
+  }, [updateConfig]);
+
   return (
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
       <DialogTitle>Settings</DialogTitle>
 
       <DialogContent sx={{ maxHeight: "calc(100vh - 300px)" }}>
+        <StyledListSubheader>General</StyledListSubheader>
+        <TimeServerListItem />
+        <TimeZoneListItem />
+
         <StyledListSubheader>Time format</StyledListSubheader>
         <SettingsSwitchListItem
           primary="Show milliseconds"
@@ -104,9 +120,22 @@ export const SettingsDialog: FC<IProps> = ({ open, onClose }) => {
           secondary="Changes the color of the digits in the analog clock"
           configItem="clockDigitsColor"
         />
+        <ColorListItem
+          primary="Clock border color"
+          secondary="Changes the color of the border in the analog clock"
+          configItem="clockBorderColor"
+        />
+        <ColorListItem
+          primary="Clock tick marks color"
+          secondary="Changes the color of the tick marks in the analog clock"
+          configItem="clockTickMarksColor"
+        />
       </DialogContent>
 
-      <DialogActions>
+      <DialogActions sx={{ justifyContent: "space-between" }}>
+        <Button color="error" onClick={handleResetAll}>
+          Reset all settings
+        </Button>
         <Button onClick={onClose}>Close</Button>
       </DialogActions>
     </Dialog>
