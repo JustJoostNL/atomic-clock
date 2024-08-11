@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { RgbColor } from "react-colorful";
 import { ColorSwatch } from "../shared/ColorSwatch";
-import { defaultConfig } from "@/lib/config/defaultConfig";
+import { SettingResetButton } from "./SettingResetButton";
 import { useConfig } from "@/hooks/useConfig";
 
 interface IProps {
@@ -44,17 +44,11 @@ export const ColorListItem: FC<IProps> = ({
     [configItem, updateConfig],
   );
 
-  const handleReset = useCallback(() => {
-    updateConfig({ [configItem]: defaultConfig[configItem] });
-  }, [configItem, updateConfig]);
-
   return (
     <ListItem>
       <ListItemText primary={primary} secondary={secondary} />
 
-      <Button sx={{ mr: 3 }} onClick={handleReset}>
-        Reset
-      </Button>
+      <SettingResetButton configItem={configItem} />
 
       <Button variant="contained" onClick={() => setOpen(true)}>
         Change

@@ -1,5 +1,6 @@
 import { ListItem, ListItemText, Slider } from "@mui/material";
 import { FC } from "react";
+import { SettingResetButton } from "./SettingResetButton";
 import { useConfig } from "@/hooks/useConfig";
 
 export const TextBackgroundOpacityListItem: FC = () => {
@@ -11,7 +12,8 @@ export const TextBackgroundOpacityListItem: FC = () => {
         primary="Text background opacity"
         secondary="The opacity of the background behind the text"
       />
-      <div style={{ width: 200 }}>
+      <div style={{ width: 300, display: "flex", alignItems: "center" }}>
+        <SettingResetButton configItem="fontSizeMultiplier" />
         <Slider
           value={config.textBackgroundOpacity}
           min={0}

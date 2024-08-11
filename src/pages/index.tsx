@@ -7,7 +7,7 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { SettingsRounded } from "@mui/icons-material";
+import { AccessTimeRounded, SettingsRounded } from "@mui/icons-material";
 import { JSONTree } from "react-json-tree";
 import useSWR from "swr";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -23,6 +23,17 @@ import { FontStyle } from "@/lib/config/config_types";
 const NTP_INTERVAL = 64 * 1000; // 64 seconds
 const INTERPOLATION_INTERVAL = 10; // 10 milliseconds
 
+function formatRGB(color: { r: number; g: number; b: number }) {
+  return `rgb(${color.r}, ${color.g}, ${color.b})`;
+}
+
+function formatRGBA(
+  color: { r: number; g: number; b: number },
+  opacity: number,
+) {
+  return `rgba(${color.r}, ${color.g}, ${color.b}, ${opacity})`;
+}
+
 async function getTime(): Promise<{ timestamp: Date; time: Date }> {
   const config = getConfig();
 
@@ -33,7 +44,7 @@ async function getTime(): Promise<{ timestamp: Date; time: Date }> {
 }
 
 export default function Index() {
-  const { config } = useConfig();
+  const { config, updateConfig } = useConfig();
   const debug = useDebug();
   const settingsButtonVisible = useVisibleOnMouseMove(3000);
   const theme = useTheme();
@@ -45,7 +56,12 @@ export default function Index() {
     revalidateOnFocus: false,
   });
 
+  const toggleDigitalClock = useCallback(() => {
+    updateConfig({ useAnalogClock: !config.useAnalogClock });
+  }, [config.useAnalogClock, updateConfig]);
+
   useHotkeys("s", () => setSettingsVisible((prev) => !prev));
+  useHotkeys("a", toggleDigitalClock);
 
   const getInterpolatedTime = useCallback(() => {
     if (!timeData) return new Date();
@@ -95,10 +111,13 @@ export default function Index() {
     ],
   );
 
-  const bgColor = `rgb(${config.backgroundColor.r}, ${config.backgroundColor.g}, ${config.backgroundColor.b})`;
-  const textColor = `rgb(${config.textColor.r}, ${config.textColor.g}, ${config.textColor.b})`;
-  const dateTextColor = `rgb(${config.dateTextColor.r}, ${config.dateTextColor.g}, ${config.dateTextColor.b})`;
-  const textBackgroundColor = `rgba(${config.textBackgroundColor.r}, ${config.textBackgroundColor.g}, ${config.textBackgroundColor.b}, ${config.textBackgroundOpacity})`;
+  const bgColor = formatRGB(config.backgroundColor);
+  const textColor = formatRGB(config.textColor);
+  const dateTextColor = formatRGB(config.dateTextColor);
+  const textBackgroundColor = formatRGBA(
+    config.textBackgroundColor,
+    config.textBackgroundOpacity,
+  );
 
   const cleanTimeLength = displayedTime
     ? displayedTime.replace(/:/g, "").length
@@ -127,26 +146,51 @@ export default function Index() {
         />
 
         {settingsButtonVisible && (
-          <Tooltip
-            arrow
-            placement="left"
-            title={
-              <React.Fragment>
-                Hint: Press <KeyboardHotkey>S</KeyboardHotkey> to open settings
-              </React.Fragment>
-            }
-          >
-            <IconButton
-              onClick={() => setSettingsVisible(true)}
-              size="large"
-              sx={{ position: "absolute", top: 10, right: 15 }}
+          <React.Fragment>
+            <Tooltip
+              arrow
+              placement="left"
+              title={
+                <React.Fragment>
+                  Hint: Press <KeyboardHotkey>S</KeyboardHotkey> to open
+                  settings
+                </React.Fragment>
+              }
             >
-              <SettingsRounded
-                fontSize="large"
-                htmlColor={theme.palette.getContrastText(bgColor)}
-              />
-            </IconButton>
-          </Tooltip>
+              <IconButton
+                onClick={() => setSettingsVisible(true)}
+                size="large"
+                sx={{ position: "absolute", top: 10, right: 15 }}
+              >
+                <SettingsRounded
+                  fontSize="large"
+                  htmlColor={theme.palette.getContrastText(bgColor)}
+                />
+              </IconButton>
+            </Tooltip>
+
+            <Tooltip
+              arrow
+              placement="left"
+              title={
+                <React.Fragment>
+                  Hint: Press <KeyboardHotkey>A</KeyboardHotkey> to toggle
+                  analog/digital clock
+                </React.Fragment>
+              }
+            >
+              <IconButton
+                onClick={toggleDigitalClock}
+                size="large"
+                sx={{ position: "absolute", top: 80, right: 15 }}
+              >
+                <AccessTimeRounded
+                  fontSize="large"
+                  htmlColor={theme.palette.getContrastText(bgColor)}
+                />
+              </IconButton>
+            </Tooltip>
+          </React.Fragment>
         )}
 
         {config.useAnalogClock && time && (

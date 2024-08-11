@@ -1,5 +1,6 @@
 import { ListItem, ListItemText, Slider } from "@mui/material";
 import { FC, useCallback } from "react";
+import { SettingResetButton } from "./SettingResetButton";
 import { useConfig } from "@/hooks/useConfig";
 
 interface IProps {
@@ -29,7 +30,8 @@ export const HandWidthListItem: FC<IProps> = ({
   return (
     <ListItem>
       <ListItemText primary={primary} secondary={secondary} />
-      <div style={{ width: 200 }}>
+      <div style={{ width: 300, display: "flex", alignItems: "center" }}>
+        <SettingResetButton configItem="fontSizeMultiplier" />
         <Slider
           value={config[configItem]}
           min={0.3}

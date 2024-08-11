@@ -1,5 +1,6 @@
 import { ListItem, ListItemText, Slider } from "@mui/material";
 import { FC } from "react";
+import { SettingResetButton } from "./SettingResetButton";
 import { useConfig } from "@/hooks/useConfig";
 
 export const TickMarksWidthMultiplierListItem: FC = () => {
@@ -11,7 +12,8 @@ export const TickMarksWidthMultiplierListItem: FC = () => {
         primary="Tick marks width multiplier"
         secondary="Adjust the width of the tick marks"
       />
-      <div style={{ width: 200 }}>
+      <div style={{ width: 300, display: "flex", alignItems: "center" }}>
+        <SettingResetButton configItem="fontSizeMultiplier" />
         <Slider
           value={config.clockTickMarksWidthMultiplier}
           min={0.5}
