@@ -1,4 +1,4 @@
-import { IConfig } from "./config_types";
+import { BorderStyle, IConfig } from "./config_types";
 
 export const defaultConfig: IConfig = {
   timeServer: "time.nist.gov",
@@ -22,5 +22,11 @@ export const defaultConfig: IConfig = {
   clockDigitsColor: { r: 255, g: 255, b: 255 },
   clockBorderColor: { r: 255, g: 255, b: 255 },
   clockTickMarksColor: { r: 255, g: 255, b: 255 },
-  clockBorderWidth: 5,
+  secondsHandWidth: 0.5,
+  millisecondsHandWidth: 0.5,
+  minutesHandWidth: 1,
+  hoursHandWidth: 2,
+  clockBorderWidth: 3,
+  clockTickMarksWidthMultiplier: 1,
+  clockBorderStyle: BorderStyle.SOLID,
 };

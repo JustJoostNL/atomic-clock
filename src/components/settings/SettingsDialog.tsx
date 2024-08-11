@@ -16,6 +16,9 @@ import { FractionalSecondDigitsListItem } from "./FractionalSecondDigitsListItem
 import { TimeServerListItem } from "./TimeServerListItem";
 import { TimeZoneListItem } from "./TimeZoneListItem";
 import { BorderWidthListItem } from "./BorderWidthListItem";
+import { BorderStyleListItem } from "./BorderStyleListItem";
+import { TickMarksWidthMultiplierListItem } from "./TickMarksWidthMultiplierListItem";
+import { HandWidthListItem } from "./HandWidthListItem";
 import { useConfig } from "@/hooks/useConfig";
 import { defaultConfig } from "@/lib/config/defaultConfig";
 
@@ -132,10 +135,32 @@ export const SettingsDialog: FC<IProps> = ({ open, onClose }) => {
           configItem="clockBorderColor"
         />
         <BorderWidthListItem />
+        <BorderStyleListItem />
         <ColorListItem
           primary="Clock tick marks color"
           secondary="Changes the color of the tick marks in the analog clock"
           configItem="clockTickMarksColor"
+        />
+        <TickMarksWidthMultiplierListItem />
+        <HandWidthListItem
+          primary="Seconds hand width"
+          secondary="Changes the width of the seconds hand in the analog clock"
+          configItem="secondsHandWidth"
+        />
+        <HandWidthListItem
+          primary="Minutes hand width"
+          secondary="Changes the width of the minutes hand in the analog clock"
+          configItem="minutesHandWidth"
+        />
+        <HandWidthListItem
+          primary="Hours hand width"
+          secondary="Changes the width of the hours hand in the analog clock"
+          configItem="hoursHandWidth"
+        />
+        <HandWidthListItem
+          primary="Milliseconds hand width"
+          secondary="Changes the width of the milliseconds hand in the analog clock"
+          configItem="millisecondsHandWidth"
         />
       </DialogContent>
 

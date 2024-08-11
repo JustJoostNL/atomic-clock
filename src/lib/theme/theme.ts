@@ -82,6 +82,14 @@ export const theme = responsiveFontSizes(
           },
         },
       },
+      MuiSlider: {
+        styleOverrides: {
+          valueLabel: {
+            fontSize: "14px",
+            fontWeight: "bold",
+          },
+        },
+      },
     },
     palette: {
       mode: "dark",

@@ -1,6 +1,7 @@
 import Color from "color";
 import { FC, useCallback } from "react";
 import { useConfig } from "@/hooks/useConfig";
+import { BorderStyle } from "@/lib/config/config_types";
 
 interface IProps {
   date: Date;
@@ -62,7 +63,20 @@ export const AnalogClock: FC<IProps> = ({ date, size = 200 }) => {
           r="45"
           fill="none"
           stroke={Color(config.clockBorderColor).rgb().string()}
-          strokeWidth={config.clockBorderWidth}
+          strokeWidth={
+            config.clockBorderStyle === BorderStyle.DOTTED
+              ? 1
+              : config.clockBorderStyle === BorderStyle.DASHED
+                ? 1
+                : config.clockBorderWidth
+          }
+          strokeDasharray={
+            config.clockBorderStyle === BorderStyle.DOTTED
+              ? "1, 4"
+              : config.clockBorderStyle === BorderStyle.DASHED
+                ? "8, 4"
+                : "none"
+          }
         />
 
         {Array.from({ length: 12 }, (_, i) => i + 1).map((number) => {
@@ -102,7 +116,9 @@ export const AnalogClock: FC<IProps> = ({ date, size = 200 }) => {
               x2={x2}
               y2={y2}
               stroke={Color(config.clockTickMarksColor).rgb().string()}
-              strokeWidth={isThick ? 1.5 : 0.5}
+              strokeWidth={
+                (isThick ? 1.5 : 0.5) * config.clockTickMarksWidthMultiplier
+              }
             />
           );
         })}
@@ -113,7 +129,7 @@ export const AnalogClock: FC<IProps> = ({ date, size = 200 }) => {
           x2="50"
           y2="30"
           stroke={Color(config.hoursHandColor).rgb().string()}
-          strokeWidth="2"
+          strokeWidth={config.hoursHandWidth}
           transform={`rotate(${hoursAngle} 50 50)`}
         />
 
@@ -123,7 +139,7 @@ export const AnalogClock: FC<IProps> = ({ date, size = 200 }) => {
           x2="50"
           y2="20"
           stroke={Color(config.minutesHandColor).rgb().string()}
-          strokeWidth="1"
+          strokeWidth={config.minutesHandWidth}
           transform={`rotate(${minutesAngle} 50 50)`}
         />
 
@@ -134,7 +150,7 @@ export const AnalogClock: FC<IProps> = ({ date, size = 200 }) => {
             x2="50"
             y2="10"
             stroke={Color(config.secondsHandColor).rgb().string()}
-            strokeWidth="0.5"
+            strokeWidth={config.secondsHandWidth}
             transform={`rotate(${secondsAngle} 50 50)`}
           />
         )}
@@ -146,7 +162,7 @@ export const AnalogClock: FC<IProps> = ({ date, size = 200 }) => {
             x2="50"
             y2="10"
             stroke={Color(config.millisecondsHandColor).rgb().string()}
-            strokeWidth="0.5"
+            strokeWidth={config.millisecondsHandWidth}
             transform={`rotate(${millisecondsAngle} 50 50)`}
           />
         )}

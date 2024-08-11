@@ -2,6 +2,12 @@ import { RgbColor } from "react-colorful";
 
 export const timezoneList = Intl.supportedValuesOf("timeZone");
 
+export enum BorderStyle {
+  SOLID = "solid",
+  DASHED = "dashed",
+  DOTTED = "dotted",
+}
+
 export interface IConfig {
   timeServer: string;
   timezone: (typeof timezoneList)[number];
@@ -21,8 +27,14 @@ export interface IConfig {
   minutesHandColor: RgbColor;
   hoursHandColor: RgbColor;
   millisecondsHandColor: RgbColor;
+  secondsHandWidth: number;
+  minutesHandWidth: number;
+  hoursHandWidth: number;
+  millisecondsHandWidth: number;
   clockDigitsColor: RgbColor;
   clockBorderColor: RgbColor;
   clockBorderWidth: number;
+  clockBorderStyle: BorderStyle;
   clockTickMarksColor: RgbColor;
+  clockTickMarksWidthMultiplier: number;
 }
