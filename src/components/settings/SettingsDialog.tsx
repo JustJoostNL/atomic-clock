@@ -15,6 +15,7 @@ import { SettingsSwitchListItem } from "./SettingsSwitchListItem";
 import { FractionalSecondDigitsListItem } from "./FractionalSecondDigitsListItem";
 import { TimeServerListItem } from "./TimeServerListItem";
 import { TimeZoneListItem } from "./TimeZoneListItem";
+import { BorderWidthListItem } from "./BorderWidthListItem";
 import { useConfig } from "@/hooks/useConfig";
 import { defaultConfig } from "@/lib/config/defaultConfig";
 
@@ -95,6 +96,11 @@ export const SettingsDialog: FC<IProps> = ({ open, onClose }) => {
           secondary="If enabled, the seconds hand will move smoothly"
           configItem="smoothSecondsHand"
         />
+        <SettingsSwitchListItem
+          primary="Smooth minutes hand"
+          secondary="If enabled, the minutes hand will move smoothly"
+          configItem="smoothMinutesHand"
+        />
         <ColorListItem
           primary="Seconds hand color"
           secondary="Changes the color of the seconds hand in the analog clock"
@@ -125,6 +131,7 @@ export const SettingsDialog: FC<IProps> = ({ open, onClose }) => {
           secondary="Changes the color of the border in the analog clock"
           configItem="clockBorderColor"
         />
+        <BorderWidthListItem />
         <ColorListItem
           primary="Clock tick marks color"
           secondary="Changes the color of the tick marks in the analog clock"

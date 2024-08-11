@@ -14,6 +14,7 @@ export const defaultConfig: IConfig = {
   hideMillisecondsHand: false,
   hideSecondsHand: false,
   smoothSecondsHand: true,
+  smoothMinutesHand: false,
   secondsHandColor: { r: 255, g: 255, b: 255 },
   minutesHandColor: { r: 255, g: 255, b: 255 },
   hoursHandColor: { r: 255, g: 255, b: 255 },
@@ -21,4 +22,5 @@ export const defaultConfig: IConfig = {
   clockDigitsColor: { r: 255, g: 255, b: 255 },
   clockBorderColor: { r: 255, g: 255, b: 255 },
   clockTickMarksColor: { r: 255, g: 255, b: 255 },
+  clockBorderWidth: 5,
 };

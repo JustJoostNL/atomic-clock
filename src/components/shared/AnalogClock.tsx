@@ -31,9 +31,13 @@ export const AnalogClock: FC<IProps> = ({ date, size = 200 }) => {
   const milliseconds = date.getMilliseconds();
 
   const hoursAngle = hours * 30 + minutes * 0.5;
-  const minutesAngle = minutes * 6;
+
+  const minutesAngle =
+    (minutes + (config.smoothMinutesHand ? seconds / 60 : 0)) * 6;
+
   const secondsAngle =
     (seconds + (config.smoothSecondsHand ? milliseconds / 1000 : 0)) * 6;
+
   const millisecondsAngle = milliseconds * 0.36;
 
   const getNumberPosition = useCallback((number: number) => {
@@ -58,6 +62,7 @@ export const AnalogClock: FC<IProps> = ({ date, size = 200 }) => {
           r="45"
           fill="none"
           stroke={Color(config.clockBorderColor).rgb().string()}
+          strokeWidth={config.clockBorderWidth}
         />
 
         {Array.from({ length: 12 }, (_, i) => i + 1).map((number) => {

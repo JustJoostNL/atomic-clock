@@ -1,10 +1,11 @@
-import { FC, useCallback } from "react";
+import { FC, SyntheticEvent, useCallback } from "react";
 import {
+  Autocomplete,
+  AutocompleteChangeDetails,
+  AutocompleteChangeReason,
   ListItem,
   ListItemText,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
+  TextField,
 } from "@mui/material";
 import { timezoneList } from "@/lib/config/config_types";
 import { useConfig } from "@/hooks/useConfig";
@@ -13,8 +14,15 @@ export const TimeZoneListItem: FC = () => {
   const { config, updateConfig } = useConfig();
 
   const handleTimezoneChange = useCallback(
-    (event: SelectChangeEvent<string>) => {
-      updateConfig({ timezone: event.target.value as string });
+    (
+      _ev: SyntheticEvent<Element, Event>,
+      value: string | null,
+      reason: AutocompleteChangeReason,
+      _dt?: AutocompleteChangeDetails<string> | undefined,
+    ) => {
+      if (reason === "selectOption" && value) {
+        updateConfig({ timezone: value });
+      }
     },
     [updateConfig],
   );
@@ -25,17 +33,19 @@ export const TimeZoneListItem: FC = () => {
         primary="Timezone"
         secondary="The timezone to use for time synchronization"
       />
-      <Select
-        label="Timezone"
+      <Autocomplete
         value={config.timezone}
         onChange={handleTimezoneChange}
-      >
-        {timezoneList.map((timezone) => (
-          <MenuItem key={timezone} value={timezone}>
-            {timezone}
-          </MenuItem>
-        ))}
-      </Select>
+        options={timezoneList}
+        fullWidth
+        autoHighlight
+        disableClearable
+        groupBy={(option) => option.split("/")[0]}
+        autoSelect
+        autoComplete
+        sx={{ maxWidth: 250 }}
+        renderInput={(params) => <TextField {...params} />}
+      />
     </ListItem>
   );
 };

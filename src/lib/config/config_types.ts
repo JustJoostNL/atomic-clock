@@ -14,6 +14,7 @@ export interface IConfig {
   use12HourFormat: boolean;
   useAnalogClock: boolean;
   smoothSecondsHand: boolean;
+  smoothMinutesHand: boolean;
   hideMillisecondsHand: boolean;
   hideSecondsHand: boolean;
   secondsHandColor: RgbColor;
@@ -22,5 +23,6 @@ export interface IConfig {
   millisecondsHandColor: RgbColor;
   clockDigitsColor: RgbColor;
   clockBorderColor: RgbColor;
+  clockBorderWidth: number;
   clockTickMarksColor: RgbColor;
 }
