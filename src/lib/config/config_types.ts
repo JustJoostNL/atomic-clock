@@ -20,6 +20,10 @@ export interface IConfig {
   showMilliseconds: boolean;
   fractionalSecondDigits: 1 | 2 | 3;
   textColor: RgbColor;
+  dateTextColor: RgbColor;
+  textBackgroundColor: RgbColor;
+  textBackgroundOpacity: number;
+  textBackgroundRadius: number;
   fontWeight: 400 | 500 | 700;
   fontStyle: FontStyle;
   fontSizeMultiplier: number;

@@ -77,6 +77,7 @@ export const AnalogClock: FC<IProps> = ({ date, size = 200 }) => {
                 ? "8, 4"
                 : "none"
           }
+          style={{ zIndex: 100 }}
         />
 
         {Array.from({ length: 12 }, (_, i) => i + 1).map((number) => {
@@ -94,6 +95,7 @@ export const AnalogClock: FC<IProps> = ({ date, size = 200 }) => {
               fontWeight="bold"
               dx={numberDeltaMap[number].dx}
               dy={numberDeltaMap[number].dy}
+              style={{ zIndex: 5 }}
             >
               {number}
             </text>
@@ -119,6 +121,7 @@ export const AnalogClock: FC<IProps> = ({ date, size = 200 }) => {
               strokeWidth={
                 (isThick ? 1.5 : 0.5) * config.clockTickMarksWidthMultiplier
               }
+              style={{ zIndex: 5 }}
             />
           );
         })}
@@ -131,6 +134,7 @@ export const AnalogClock: FC<IProps> = ({ date, size = 200 }) => {
           stroke={Color(config.hoursHandColor).rgb().string()}
           strokeWidth={config.hoursHandWidth}
           transform={`rotate(${hoursAngle} 50 50)`}
+          style={{ zIndex: 100 }}
         />
 
         <line
@@ -141,6 +145,7 @@ export const AnalogClock: FC<IProps> = ({ date, size = 200 }) => {
           stroke={Color(config.minutesHandColor).rgb().string()}
           strokeWidth={config.minutesHandWidth}
           transform={`rotate(${minutesAngle} 50 50)`}
+          style={{ zIndex: 100 }}
         />
 
         {!config.hideSecondsHand && (
@@ -152,6 +157,7 @@ export const AnalogClock: FC<IProps> = ({ date, size = 200 }) => {
             stroke={Color(config.secondsHandColor).rgb().string()}
             strokeWidth={config.secondsHandWidth}
             transform={`rotate(${secondsAngle} 50 50)`}
+            style={{ zIndex: 100 }}
           />
         )}
 

@@ -21,6 +21,8 @@ interface IProps {
     | "secondsHandColor"
     | "millisecondsHandColor"
     | "textColor"
+    | "dateTextColor"
+    | "textBackgroundColor"
     | "backgroundColor"
     | "clockDigitsColor"
     | "clockBorderColor"

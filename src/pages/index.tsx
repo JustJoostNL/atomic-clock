@@ -97,13 +97,15 @@ export default function Index() {
 
   const bgColor = `rgb(${config.backgroundColor.r}, ${config.backgroundColor.g}, ${config.backgroundColor.b})`;
   const textColor = `rgb(${config.textColor.r}, ${config.textColor.g}, ${config.textColor.b})`;
+  const dateTextColor = `rgb(${config.dateTextColor.r}, ${config.dateTextColor.g}, ${config.dateTextColor.b})`;
+  const textBackgroundColor = `rgba(${config.textBackgroundColor.r}, ${config.textBackgroundColor.g}, ${config.textBackgroundColor.b}, ${config.textBackgroundOpacity})`;
 
   const cleanTimeLength = displayedTime
     ? displayedTime.replace(/:/g, "").length
     : 1;
 
   const calculatedFontSize = `${(120 / (cleanTimeLength - 0.5)) * config.fontSizeMultiplier}vw`;
-  const fontSize = calculatedFontSize.length > 5 ? "12vw" : calculatedFontSize;
+  const calculatedDateFontSize = `${(120 / 25) * config.fontSizeMultiplier}vw`;
 
   return (
     <div style={{ backgroundColor: bgColor }}>
@@ -159,11 +161,13 @@ export default function Index() {
             <Typography
               fontWeight={config.fontWeight}
               color={textColor}
-              fontSize={fontSize}
+              fontSize={calculatedFontSize}
               align="center"
               sx={{
                 overflow: "hidden",
                 whiteSpace: "nowrap",
+                bgcolor: textBackgroundColor,
+                borderRadius: config.textBackgroundRadius,
                 fontFamily:
                   config.fontStyle === FontStyle.ITALIC
                     ? "italic"
@@ -177,8 +181,8 @@ export default function Index() {
 
             {config.displayDate && (
               <Typography
-                color={textColor}
-                fontSize="5vw"
+                color={dateTextColor}
+                fontSize={calculatedDateFontSize}
                 align="center"
                 sx={{ overflow: "hidden", whiteSpace: "nowrap" }}
               >

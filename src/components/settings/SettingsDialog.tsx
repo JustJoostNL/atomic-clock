@@ -20,6 +20,8 @@ import { BorderStyleListItem } from "./BorderStyleListItem";
 import { TickMarksWidthMultiplierListItem } from "./TickMarksWidthMultiplierListItem";
 import { HandWidthListItem } from "./HandWidthListItem";
 import { FontStyleListItem } from "./FontStyleListItem";
+import { TextBackgroundRadiusListItem } from "./TextBackgroundRadiusListItem";
+import { TextBackgroundOpacityListItem } from "./TextBackgroundOpacityListItem";
 import { useConfig } from "@/hooks/useConfig";
 import { defaultConfig } from "@/lib/config/defaultConfig";
 
@@ -90,10 +92,22 @@ export const SettingsDialog: FC<IProps> = ({ open, onClose }) => {
           configItem="textColor"
         />
         <ColorListItem
+          primary="Date text color"
+          secondary="Changes the color of the date text"
+          configItem="dateTextColor"
+        />
+        <ColorListItem
           primary="Background color"
           secondary="Changes the color of the clock background"
           configItem="backgroundColor"
         />
+        <ColorListItem
+          primary="Text background color"
+          secondary="Changes the color of the text background"
+          configItem="textBackgroundColor"
+        />
+        <TextBackgroundRadiusListItem />
+        <TextBackgroundOpacityListItem />
 
         <StyledListSubheader>Analog Clock</StyledListSubheader>
         <SettingsSwitchListItem
