@@ -18,6 +18,7 @@ import { SettingsDialog } from "@/components/settings/SettingsDialog";
 import { AnalogClock } from "@/components/shared/AnalogClock";
 import { KeyboardHotkey } from "@/components/shared/KeyboardHotkey";
 import { getConfig } from "@/lib/config/config";
+import { FontStyle } from "@/lib/config/config_types";
 
 const NTP_INTERVAL = 64 * 1000; // 64 seconds
 const INTERPOLATION_INTERVAL = 10; // 10 milliseconds
@@ -72,16 +73,21 @@ export default function Index() {
         ?.toLocaleTimeString(undefined, {
           hour: "2-digit",
           minute: "2-digit",
-          second: "2-digit",
+          second: config.hideSeconds ? undefined : "2-digit",
           timeZone: config.timezone,
           fractionalSecondDigits: config.showMilliseconds
             ? config.fractionalSecondDigits
             : undefined,
           hour12: config.use12HourFormat,
         })
-        .replace(",", "."),
+        .replace(/[,:.]/g, (match) => {
+          if (config.hideSeparators) return "";
+          return match === "," ? "." : match === ":" ? ":" : ".";
+        }),
     [
       config.fractionalSecondDigits,
+      config.hideSeconds,
+      config.hideSeparators,
       config.showMilliseconds,
       config.timezone,
       config.use12HourFormat,
@@ -95,6 +101,9 @@ export default function Index() {
   const cleanTimeLength = displayedTime
     ? displayedTime.replace(/:/g, "").length
     : 1;
+
+  const calculatedFontSize = `${(120 / (cleanTimeLength - 0.5)) * config.fontSizeMultiplier}vw`;
+  const fontSize = calculatedFontSize.length > 5 ? "12vw" : calculatedFontSize;
 
   return (
     <div style={{ backgroundColor: bgColor }}>
@@ -146,18 +155,43 @@ export default function Index() {
         )}
 
         {!config.useAnalogClock && (
-          <Typography
-            fontWeight={config.fontWeight}
-            color={textColor}
-            fontSize={`${(120 / (cleanTimeLength - 0.5)) * config.fontSizeMultiplier}vw`}
-            align="center"
-            sx={{
-              overflow: "hidden",
-              whiteSpace: "nowrap",
-            }}
-          >
-            {displayedTime}
-          </Typography>
+          <React.Fragment>
+            <Typography
+              fontWeight={config.fontWeight}
+              color={textColor}
+              fontSize={fontSize}
+              align="center"
+              sx={{
+                overflow: "hidden",
+                whiteSpace: "nowrap",
+                fontFamily:
+                  config.fontStyle === FontStyle.ITALIC
+                    ? "italic"
+                    : config.fontStyle === FontStyle.OBLIQUE
+                      ? "oblique"
+                      : undefined,
+              }}
+            >
+              {displayedTime}
+            </Typography>
+
+            {config.displayDate && (
+              <Typography
+                color={textColor}
+                fontSize="5vw"
+                align="center"
+                sx={{ overflow: "hidden", whiteSpace: "nowrap" }}
+              >
+                {time?.toLocaleDateString(undefined, {
+                  weekday: "long",
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                  timeZone: config.timezone,
+                })}
+              </Typography>
+            )}
+          </React.Fragment>
         )}
       </Container>
       <Box sx={{ width: "100%", position: "absolute", bottom: 0 }}>

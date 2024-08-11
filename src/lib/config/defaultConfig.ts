@@ -1,4 +1,4 @@
-import { BorderStyle, IConfig } from "./config_types";
+import { BorderStyle, FontStyle, IConfig } from "./config_types";
 
 export const defaultConfig: IConfig = {
   timeServer: "time.nist.gov",
@@ -6,7 +6,11 @@ export const defaultConfig: IConfig = {
   showMilliseconds: true,
   fractionalSecondDigits: 3,
   fontWeight: 700,
+  fontStyle: FontStyle.NORMAL,
   fontSizeMultiplier: 1,
+  hideSeparators: false,
+  displayDate: false,
+  hideSeconds: false,
   textColor: { r: 255, g: 255, b: 255 },
   backgroundColor: { r: 18, g: 18, b: 18 },
   use12HourFormat: false,

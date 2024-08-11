@@ -8,6 +8,12 @@ export enum BorderStyle {
   DOTTED = "dotted",
 }
 
+export enum FontStyle {
+  NORMAL = "normal",
+  ITALIC = "italic",
+  OBLIQUE = "oblique",
+}
+
 export interface IConfig {
   timeServer: string;
   timezone: (typeof timezoneList)[number];
@@ -15,7 +21,11 @@ export interface IConfig {
   fractionalSecondDigits: 1 | 2 | 3;
   textColor: RgbColor;
   fontWeight: 400 | 500 | 700;
+  fontStyle: FontStyle;
   fontSizeMultiplier: number;
+  hideSeparators: boolean;
+  displayDate: boolean;
+  hideSeconds: boolean;
   backgroundColor: RgbColor;
   use12HourFormat: boolean;
   useAnalogClock: boolean;

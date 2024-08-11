@@ -19,6 +19,7 @@ import { BorderWidthListItem } from "./BorderWidthListItem";
 import { BorderStyleListItem } from "./BorderStyleListItem";
 import { TickMarksWidthMultiplierListItem } from "./TickMarksWidthMultiplierListItem";
 import { HandWidthListItem } from "./HandWidthListItem";
+import { FontStyleListItem } from "./FontStyleListItem";
 import { useConfig } from "@/hooks/useConfig";
 import { defaultConfig } from "@/lib/config/defaultConfig";
 
@@ -62,11 +63,27 @@ export const SettingsDialog: FC<IProps> = ({ open, onClose }) => {
           secondary="If enabled, the clock will use a 12-hour format"
           configItem="use12HourFormat"
         />
+        <SettingsSwitchListItem
+          primary="Hide separators"
+          secondary="If enabled, separators between hours, minutes, and seconds will be hidden"
+          configItem="hideSeparators"
+        />
+        <SettingsSwitchListItem
+          primary="Hide seconds"
+          secondary="If enabled, seconds will not be displayed in the clock (only works if milliseconds are hidden)"
+          configItem="hideSeconds"
+        />
+        <SettingsSwitchListItem
+          primary="Display date"
+          secondary="If enabled, the current date will be displayed"
+          configItem="displayDate"
+        />
         <FractionalSecondDigitsListItem />
 
         <StyledListSubheader>Appearance</StyledListSubheader>
         <FontSizeMultiplierListItem />
         <FontWeightListItem />
+        <FontStyleListItem />
         <ColorListItem
           primary="Text color"
           secondary="Changes the color of the clock text"
