@@ -13,7 +13,7 @@ export const BorderWidthListItem: FC = () => {
         secondary="The width of the border around the clock"
       />
       <div style={{ width: 300, display: "flex", alignItems: "center" }}>
-        <SettingResetButton configItem="fontSizeMultiplier" />
+        <SettingResetButton configItem="clockBorderWidth" />
         <Slider
           value={config.clockBorderWidth}
           min={1}

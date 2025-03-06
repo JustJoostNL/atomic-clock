@@ -31,7 +31,7 @@ export const HandWidthListItem: FC<IProps> = ({
     <ListItem>
       <ListItemText primary={primary} secondary={secondary} />
       <div style={{ width: 300, display: "flex", alignItems: "center" }}>
-        <SettingResetButton configItem="fontSizeMultiplier" />
+        <SettingResetButton configItem={configItem} />
         <Slider
           value={config[configItem]}
           min={0.3}

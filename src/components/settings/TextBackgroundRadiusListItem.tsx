@@ -13,7 +13,7 @@ export const TextBackgroundRadiusListItem: FC = () => {
         secondary="The radius of the background behind the text"
       />
       <div style={{ width: 300, display: "flex", alignItems: "center" }}>
-        <SettingResetButton configItem="fontSizeMultiplier" />
+        <SettingResetButton configItem="textBackgroundRadius" />
         <Slider
           value={config.textBackgroundRadius}
           min={0}

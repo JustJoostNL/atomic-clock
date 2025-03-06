@@ -13,7 +13,7 @@ export const TickMarksWidthMultiplierListItem: FC = () => {
         secondary="Adjust the width of the tick marks"
       />
       <div style={{ width: 300, display: "flex", alignItems: "center" }}>
-        <SettingResetButton configItem="fontSizeMultiplier" />
+        <SettingResetButton configItem="clockTickMarksWidthMultiplier" />
         <Slider
           value={config.clockTickMarksWidthMultiplier}
           min={0.5}

@@ -13,7 +13,7 @@ export const TextBackgroundOpacityListItem: FC = () => {
         secondary="The opacity of the background behind the text"
       />
       <div style={{ width: 300, display: "flex", alignItems: "center" }}>
-        <SettingResetButton configItem="fontSizeMultiplier" />
+        <SettingResetButton configItem="textBackgroundOpacity" />
         <Slider
           value={config.textBackgroundOpacity}
           min={0}
