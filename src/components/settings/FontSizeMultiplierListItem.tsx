@@ -1,7 +1,7 @@
 import { ListItem, ListItemText, Slider } from "@mui/material";
-import { FC } from "react";
-import { SettingResetButton } from "./SettingResetButton";
+import type { FC } from "react";
 import { useConfig } from "@/hooks/useConfig";
+import { SettingResetButton } from "./SettingResetButton";
 
 export const FontSizeMultiplierListItem: FC = () => {
   const { config, updateConfig } = useConfig();
@@ -22,9 +22,7 @@ export const FontSizeMultiplierListItem: FC = () => {
           step={0.1}
           valueLabelDisplay="auto"
           onChange={(_, value) =>
-            updateConfig({
-              fontSizeMultiplier: value as number,
-            })
+            updateConfig({ fontSizeMultiplier: value as number })
           }
         />
       </div>

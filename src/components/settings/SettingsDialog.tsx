@@ -1,43 +1,42 @@
+"use client";
 import {
+  Box,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
-  ListSubheader,
-  styled,
+  Divider,
+  Tab,
+  Tabs,
 } from "@mui/material";
-import { FC, useCallback } from "react";
-import { FontWeightListItem } from "./FontWeightListItem";
-import { FontSizeMultiplierListItem } from "./FontSizeMultiplierListItem";
-import { ColorListItem } from "./ColorListItem";
-import { SettingsSwitchListItem } from "./SettingsSwitchListItem";
-import { FractionalSecondDigitsListItem } from "./FractionalSecondDigitsListItem";
-import { TimeServerListItem } from "./TimeServerListItem";
-import { TimeZoneListItem } from "./TimeZoneListItem";
-import { BorderWidthListItem } from "./BorderWidthListItem";
-import { BorderStyleListItem } from "./BorderStyleListItem";
-import { TickMarksWidthMultiplierListItem } from "./TickMarksWidthMultiplierListItem";
-import { HandWidthListItem } from "./HandWidthListItem";
-import { FontStyleListItem } from "./FontStyleListItem";
-import { TextBackgroundRadiusListItem } from "./TextBackgroundRadiusListItem";
-import { TextBackgroundOpacityListItem } from "./TextBackgroundOpacityListItem";
+import { type FC, useCallback, useState } from "react";
 import { useConfig } from "@/hooks/useConfig";
 import { defaultConfig } from "@/lib/config/defaultConfig";
-
-const StyledListSubheader = styled(ListSubheader)({
-  backgroundColor: "rgba(0, 0, 0, 0.5)",
-  position: "static",
-  color: "white",
-});
+import { AnalogClockSettings } from "./sections/AnalogClockSettings";
+import { DigitalClockSettings } from "./sections/DigitalClockSettings";
+import { GeneralSettings } from "./sections/GeneralSettings";
 
 interface IProps {
   open: boolean;
   onClose: () => void;
 }
 
+const TabPanel: FC<{
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+}> = ({ children, value, index }) => {
+  return (
+    <div hidden={value !== index}>
+      {value === index && <Box sx={{ py: 2 }}>{children}</Box>}
+    </div>
+  );
+};
+
 export const SettingsDialog: FC<IProps> = ({ open, onClose }) => {
   const { updateConfig } = useConfig();
+  const [tabValue, setTabValue] = useState(0);
 
   const handleResetAll = useCallback(() => {
     if (confirm("Are you sure you want to reset all settings?")) {
@@ -45,161 +44,46 @@ export const SettingsDialog: FC<IProps> = ({ open, onClose }) => {
     }
   }, [updateConfig]);
 
+  const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
+    setTabValue(newValue);
+  };
+
   return (
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
       <DialogTitle>Settings</DialogTitle>
 
-      <DialogContent sx={{ maxHeight: "calc(100vh - 300px)" }}>
-        <StyledListSubheader>General</StyledListSubheader>
-        <TimeServerListItem />
-        <TimeZoneListItem />
+      <Tabs
+        value={tabValue}
+        onChange={handleTabChange}
+        aria-label="settings tabs"
+        sx={{ px: 3, borderBottom: 1, borderColor: "divider" }}
+      >
+        <Tab label="General" />
+        <Tab label="Digital Clock" />
+        <Tab label="Analog Clock" />
+      </Tabs>
 
-        <StyledListSubheader>Time format</StyledListSubheader>
-        <SettingsSwitchListItem
-          primary="Show milliseconds"
-          secondary="If enabled, milliseconds will be displayed in the clock"
-          configItem="showMilliseconds"
-        />
-        <SettingsSwitchListItem
-          primary="Use 12-hour format"
-          secondary="If enabled, the clock will use a 12-hour format"
-          configItem="use12HourFormat"
-        />
-        <SettingsSwitchListItem
-          primary="Hide separators"
-          secondary="If enabled, separators between hours, minutes, and seconds will be hidden"
-          configItem="hideSeparators"
-        />
-        <SettingsSwitchListItem
-          primary="Hide seconds"
-          secondary="If enabled, seconds will not be displayed in the clock (only works if milliseconds are hidden)"
-          configItem="hideSeconds"
-        />
-        <SettingsSwitchListItem
-          primary="Display date"
-          secondary="If enabled, the current date will be displayed"
-          configItem="displayDate"
-        />
-        <FractionalSecondDigitsListItem />
-
-        <StyledListSubheader>Appearance</StyledListSubheader>
-        <FontSizeMultiplierListItem />
-        <FontWeightListItem />
-        <FontStyleListItem />
-        <ColorListItem
-          primary="Text color"
-          secondary="Changes the color of the clock text"
-          configItem="textColor"
-        />
-        <ColorListItem
-          primary="Date text color"
-          secondary="Changes the color of the date text"
-          configItem="dateTextColor"
-        />
-        <ColorListItem
-          primary="Background color"
-          secondary="Changes the color of the clock background"
-          configItem="backgroundColor"
-        />
-        <ColorListItem
-          primary="Text background color"
-          secondary="Changes the color of the text background"
-          configItem="textBackgroundColor"
-        />
-        <TextBackgroundRadiusListItem />
-        <TextBackgroundOpacityListItem />
-
-        <StyledListSubheader>Analog Clock</StyledListSubheader>
-        <SettingsSwitchListItem
-          primary="Use analog clock"
-          secondary="If enabled, the clock will be displayed as an analog clock"
-          configItem="useAnalogClock"
-        />
-        <SettingsSwitchListItem
-          primary="Hide seconds hand"
-          secondary="If enabled, the seconds hand will not be displayed in the clock"
-          configItem="hideSecondsHand"
-        />
-        <SettingsSwitchListItem
-          primary="Hide milliseconds hand"
-          secondary="If enabled, the milliseconds hand will not be displayed in the clock"
-          configItem="hideMillisecondsHand"
-        />
-        <SettingsSwitchListItem
-          primary="Smooth seconds hand"
-          secondary="If enabled, the seconds hand will move smoothly"
-          configItem="smoothSecondsHand"
-        />
-        <SettingsSwitchListItem
-          primary="Smooth minutes hand"
-          secondary="If enabled, the minutes hand will move smoothly"
-          configItem="smoothMinutesHand"
-        />
-        <ColorListItem
-          primary="Seconds hand color"
-          secondary="Changes the color of the seconds hand in the analog clock"
-          configItem="secondsHandColor"
-        />
-        <ColorListItem
-          primary="Minutes hand color"
-          secondary="Changes the color of the minutes hand in the analog clock"
-          configItem="minutesHandColor"
-        />
-        <ColorListItem
-          primary="Hours hand color"
-          secondary="Changes the color of the hours hand in the analog clock"
-          configItem="hoursHandColor"
-        />
-        <ColorListItem
-          primary="Milliseconds hand color"
-          secondary="Changes the color of the milliseconds hand in the analog clock"
-          configItem="millisecondsHandColor"
-        />
-        <ColorListItem
-          primary="Clock digits color"
-          secondary="Changes the color of the digits in the analog clock"
-          configItem="clockDigitsColor"
-        />
-        <ColorListItem
-          primary="Clock border color"
-          secondary="Changes the color of the border in the analog clock"
-          configItem="clockBorderColor"
-        />
-        <BorderWidthListItem />
-        <BorderStyleListItem />
-        <ColorListItem
-          primary="Clock tick marks color"
-          secondary="Changes the color of the tick marks in the analog clock"
-          configItem="clockTickMarksColor"
-        />
-        <TickMarksWidthMultiplierListItem />
-        <HandWidthListItem
-          primary="Seconds hand width"
-          secondary="Changes the width of the seconds hand in the analog clock"
-          configItem="secondsHandWidth"
-        />
-        <HandWidthListItem
-          primary="Minutes hand width"
-          secondary="Changes the width of the minutes hand in the analog clock"
-          configItem="minutesHandWidth"
-        />
-        <HandWidthListItem
-          primary="Hours hand width"
-          secondary="Changes the width of the hours hand in the analog clock"
-          configItem="hoursHandWidth"
-        />
-        <HandWidthListItem
-          primary="Milliseconds hand width"
-          secondary="Changes the width of the milliseconds hand in the analog clock"
-          configItem="millisecondsHandWidth"
-        />
+      <DialogContent sx={{ maxHeight: "calc(100vh - 300px)", px: 3 }}>
+        <TabPanel value={tabValue} index={0}>
+          <GeneralSettings />
+        </TabPanel>
+        <TabPanel value={tabValue} index={1}>
+          <DigitalClockSettings />
+        </TabPanel>
+        <TabPanel value={tabValue} index={2}>
+          <AnalogClockSettings />
+        </TabPanel>
       </DialogContent>
 
-      <DialogActions sx={{ justifyContent: "space-between" }}>
-        <Button color="error" onClick={handleResetAll}>
+      <Divider />
+
+      <DialogActions sx={{ justifyContent: "space-between", px: 3, py: 2 }}>
+        <Button color="error" onClick={handleResetAll} variant="outlined">
           Reset all settings
         </Button>
-        <Button onClick={onClose}>Close</Button>
+        <Button onClick={onClose} variant="contained">
+          Close
+        </Button>
       </DialogActions>
     </Dialog>
   );

@@ -1,7 +1,7 @@
 import { ListItem, ListItemText, Slider } from "@mui/material";
-import { FC } from "react";
-import { SettingResetButton } from "./SettingResetButton";
+import type { FC } from "react";
 import { useConfig } from "@/hooks/useConfig";
+import { SettingResetButton } from "./SettingResetButton";
 
 export const TickMarksWidthMultiplierListItem: FC = () => {
   const { config, updateConfig } = useConfig();
@@ -21,9 +21,7 @@ export const TickMarksWidthMultiplierListItem: FC = () => {
           step={0.1}
           valueLabelDisplay="auto"
           onChange={(_, value) =>
-            updateConfig({
-              clockTickMarksWidthMultiplier: value as number,
-            })
+            updateConfig({ clockTickMarksWidthMultiplier: value as number })
           }
         />
       </div>

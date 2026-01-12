@@ -1,14 +1,14 @@
-import { FC, SyntheticEvent, useCallback } from "react";
 import {
   Autocomplete,
-  AutocompleteChangeDetails,
-  AutocompleteChangeReason,
+  type AutocompleteChangeDetails,
+  type AutocompleteChangeReason,
   ListItem,
   ListItemText,
   TextField,
 } from "@mui/material";
-import { timezoneList } from "@/lib/config/config_types";
+import { type FC, type SyntheticEvent, useCallback } from "react";
 import { useConfig } from "@/hooks/useConfig";
+import { timezoneList } from "@/lib/config/config_types";
 
 export const TimeZoneListItem: FC = () => {
   const { config, updateConfig } = useConfig();

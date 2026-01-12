@@ -1,14 +1,15 @@
+"use client";
 import {
   createContext,
-  ReactNode,
-  useState,
-  useEffect,
-  useContext,
+  type ReactNode,
   useCallback,
+  useContext,
+  useEffect,
+  useState,
 } from "react";
-import { IConfig } from "@/lib/config/config_types";
-import { defaultConfig } from "@/lib/config/defaultConfig";
 import { configEventEmitter, getConfig, setConfig } from "@/lib/config/config";
+import type { IConfig } from "@/lib/config/config_types";
+import { defaultConfig } from "@/lib/config/defaultConfig";
 
 const ConfigContext = createContext<IConfig>(defaultConfig);
 
@@ -26,11 +27,7 @@ export function useConfig() {
     [currentConfig],
   );
 
-  return {
-    config: currentConfig,
-    setConfig: _setConfig,
-    updateConfig,
-  };
+  return { config: currentConfig, setConfig: _setConfig, updateConfig };
 }
 
 export function ConfigProvider({ children }: { children: ReactNode }) {

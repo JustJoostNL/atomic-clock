@@ -1,5 +1,5 @@
-import { ListItem, ListItemText, Select, MenuItem } from "@mui/material";
-import { FC } from "react";
+import { ListItem, ListItemText, MenuItem, Select } from "@mui/material";
+import type { FC } from "react";
 import { useConfig } from "@/hooks/useConfig";
 import { BorderStyle } from "@/lib/config/config_types";
 
@@ -15,9 +15,7 @@ export const BorderStyleListItem: FC = () => {
       <Select
         value={config.clockBorderStyle}
         onChange={(e) =>
-          updateConfig({
-            clockBorderStyle: e.target.value as BorderStyle,
-          })
+          updateConfig({ clockBorderStyle: e.target.value as BorderStyle })
         }
       >
         {Object.values(BorderStyle).map((style) => (

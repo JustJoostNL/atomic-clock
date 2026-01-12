@@ -27,7 +27,6 @@ yarn-error.log*
 
 # local env files
 .env*.local
-.env
 
 # vercel
 .vercel
@@ -36,14 +35,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# next-pwa
-/public/precache.*.*.js
-/public/sw.js
-/public/workbox-*.js
-/public/worker-*.js
-/public/fallback-*.js
-/public/precache.*.*.js.map
-/public/sw.js.map
-/public/workbox-*.js.map
-/public/worker-*.js.map
-/public/fallback-*.js
+# OpenNext
+/.open-next
+
+# wrangler files
+.wrangler
+.dev.vars*

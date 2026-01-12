@@ -1,7 +1,7 @@
 import { ListItem, ListItemText, Slider } from "@mui/material";
-import { FC, useCallback } from "react";
-import { SettingResetButton } from "./SettingResetButton";
+import { type FC, useCallback } from "react";
 import { useConfig } from "@/hooks/useConfig";
+import { SettingResetButton } from "./SettingResetButton";
 
 interface IProps {
   primary: string;

@@ -1,7 +1,7 @@
 import { ListItem, ListItemText, Switch } from "@mui/material";
-import { FC, useCallback } from "react";
+import { type FC, useCallback } from "react";
 import { useConfig } from "@/hooks/useConfig";
-import { IConfig } from "@/lib/config/config_types";
+import type { IConfig } from "@/lib/config/config_types";
 
 interface IProps {
   primary: string;

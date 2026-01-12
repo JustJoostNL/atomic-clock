@@ -1,5 +1,5 @@
 import { Button } from "@mui/material";
-import { FC, useCallback } from "react";
+import { type FC, useCallback } from "react";
 import { useConfig } from "@/hooks/useConfig";
 import { defaultConfig } from "@/lib/config/defaultConfig";
 

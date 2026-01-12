@@ -1,13 +1,13 @@
 import {
   ListItem,
   ListItemText,
-  Select,
   MenuItem,
-  SelectChangeEvent,
+  Select,
+  type SelectChangeEvent,
 } from "@mui/material";
-import { FC, useCallback } from "react";
+import { type FC, useCallback } from "react";
 import { useConfig } from "@/hooks/useConfig";
-import { IConfig } from "@/lib/config/config_types";
+import type { IConfig } from "@/lib/config/config_types";
 
 export const FractionalSecondDigitsListItem: FC = () => {
   const { config, updateConfig } = useConfig();
@@ -20,6 +20,7 @@ export const FractionalSecondDigitsListItem: FC = () => {
       updateConfig({
         fractionalSecondDigits: parseInt(
           e.target.value,
+          10,
         ) as IConfig["fractionalSecondDigits"],
       });
     },

@@ -1,4 +1,3 @@
-import React, { FC, useCallback, useState } from "react";
 import {
   Box,
   Button,
@@ -7,10 +6,11 @@ import {
   ListItem,
   ListItemText,
 } from "@mui/material";
-import { RgbColor } from "react-colorful";
+import { type FC, useCallback, useState } from "react";
+import type { RgbColor } from "react-colorful";
+import { useConfig } from "@/hooks/useConfig";
 import { ColorSwatch } from "../shared/ColorSwatch";
 import { SettingResetButton } from "./SettingResetButton";
-import { useConfig } from "@/hooks/useConfig";
 
 interface IProps {
   primary: string;

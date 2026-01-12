@@ -6,44 +6,14 @@ export const theme = responsiveFontSizes(
     typography: {
       fontFamily:
         "'Segoe UI', Roboto Mono, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif",
-      body1: {
-        fontSize: "16px",
-        letterSpacing: "-0.05px",
-      },
-      body2: {
-        fontSize: "12px",
-        letterSpacing: "-0.04px",
-      },
-      h1: {
-        fontWeight: 500,
-        fontSize: "40px",
-        letterSpacing: "-0.24px",
-      },
-      h2: {
-        fontWeight: 500,
-        fontSize: "29px",
-        letterSpacing: "-0.24px",
-      },
-      h3: {
-        fontWeight: 500,
-        fontSize: "24px",
-        letterSpacing: "-0.06px",
-      },
-      h4: {
-        fontWeight: 500,
-        fontSize: "20px",
-        letterSpacing: "-0.06px",
-      },
-      h5: {
-        fontWeight: 700,
-        fontSize: "18px",
-        letterSpacing: "-0.05px",
-      },
-      h6: {
-        fontWeight: 700,
-        fontSize: "14px",
-        letterSpacing: "-0.05px",
-      },
+      body1: { fontSize: "16px", letterSpacing: "-0.05px" },
+      body2: { fontSize: "12px", letterSpacing: "-0.04px" },
+      h1: { fontWeight: 500, fontSize: "40px", letterSpacing: "-0.24px" },
+      h2: { fontWeight: 500, fontSize: "29px", letterSpacing: "-0.24px" },
+      h3: { fontWeight: 500, fontSize: "24px", letterSpacing: "-0.06px" },
+      h4: { fontWeight: 500, fontSize: "20px", letterSpacing: "-0.06px" },
+      h5: { fontWeight: 700, fontSize: "18px", letterSpacing: "-0.05px" },
+      h6: { fontWeight: 700, fontSize: "14px", letterSpacing: "-0.05px" },
     },
     components: {
       MuiMenu: {
@@ -59,44 +29,25 @@ export const theme = responsiveFontSizes(
       MuiCardContent: {
         styleOverrides: {
           root: ({ theme }) => ({
-            "&:last-child": {
-              paddingBottom: theme.spacing(2),
-            },
+            "&:last-child": { paddingBottom: theme.spacing(2) },
           }),
         },
       },
       MuiButton: {
         styleOverrides: {
-          root: {
-            fontSize: "16px",
-            textTransform: "none",
-            fontWeight: "bold",
-          },
+          root: { fontSize: "16px", textTransform: "none", fontWeight: "bold" },
         },
       },
       MuiTooltip: {
-        styleOverrides: {
-          tooltip: {
-            fontSize: "14px",
-            fontWeight: "bold",
-          },
-        },
+        styleOverrides: { tooltip: { fontSize: "14px", fontWeight: "bold" } },
       },
       MuiSlider: {
         styleOverrides: {
-          valueLabel: {
-            fontSize: "14px",
-            fontWeight: "bold",
-          },
+          valueLabel: { fontSize: "14px", fontWeight: "bold" },
         },
       },
     },
-    palette: {
-      mode: "dark",
-      secondary: {
-        main: "#e10600",
-      },
-    },
+    palette: { mode: "dark", secondary: { main: "#e10600" } },
     shadows: muiShadows,
   }),
   { factor: 3 },

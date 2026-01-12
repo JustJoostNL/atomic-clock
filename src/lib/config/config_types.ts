@@ -1,4 +1,4 @@
-import { RgbColor } from "react-colorful";
+import type { RgbColor } from "react-colorful";
 
 export const timezoneList = Intl.supportedValuesOf("timeZone");
 
@@ -15,7 +15,6 @@ export enum FontStyle {
 }
 
 export interface IConfig {
-  timeServer: string;
   timezone: (typeof timezoneList)[number];
   showMilliseconds: boolean;
   fractionalSecondDigits: 1 | 2 | 3;

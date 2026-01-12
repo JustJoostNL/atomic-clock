@@ -1,5 +1,5 @@
 import { styled } from "@mui/material";
-import React, { DetailedHTMLProps, FC, HTMLAttributes } from "react";
+import type { DetailedHTMLProps, FC, HTMLAttributes } from "react";
 
 const StyledKeyboardHotkey = styled("kbd")(({ theme }) => ({
   fontFamily:

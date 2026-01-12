@@ -1,5 +1,5 @@
 import { ListItem, ListItemText, MenuItem, Select } from "@mui/material";
-import { FC } from "react";
+import type { FC } from "react";
 import { useConfig } from "@/hooks/useConfig";
 import { FontStyle } from "@/lib/config/config_types";
 
@@ -15,9 +15,7 @@ export const FontStyleListItem: FC = () => {
       <Select
         value={config.fontStyle}
         onChange={(e) =>
-          updateConfig({
-            fontStyle: e.target.value as FontStyle,
-          })
+          updateConfig({ fontStyle: e.target.value as FontStyle })
         }
       >
         {Object.values(FontStyle).map((style) => (

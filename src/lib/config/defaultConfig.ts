@@ -1,7 +1,6 @@
-import { BorderStyle, FontStyle, IConfig } from "./config_types";
+import { BorderStyle, FontStyle, type IConfig } from "./config_types";
 
 export const defaultConfig: IConfig = {
-  timeServer: "time.nist.gov",
   timezone: "Europe/Amsterdam",
   showMilliseconds: true,
   fractionalSecondDigits: 3,

@@ -1,13 +1,9 @@
 import { Box, TextField } from "@mui/material";
-import { RgbColor, RgbColorPicker } from "react-colorful";
-import React, { ChangeEvent, FC, useCallback } from "react";
+import { type ChangeEvent, type FC, useCallback } from "react";
+import { type RgbColor, RgbColorPicker } from "react-colorful";
 
 interface IProps {
-  color: {
-    r: number;
-    g: number;
-    b: number;
-  };
+  color: { r: number; g: number; b: number };
   onChange?: (rgbColor: { r: number; g: number; b: number }) => void;
 }
 
@@ -56,12 +52,7 @@ export const ColorSwatch: FC<IProps> = ({ color, onChange }) => {
           label="Red"
           value={color.r}
           onChange={handleInputChange}
-          inputProps={{
-            min: 0,
-            max: 100,
-            step: 1,
-            type: "number",
-          }}
+          inputProps={{ min: 0, max: 100, step: 1, type: "number" }}
           sx={{ width: 80, mr: 1 }}
         />
 
@@ -69,12 +60,7 @@ export const ColorSwatch: FC<IProps> = ({ color, onChange }) => {
           label="Green"
           value={color.g}
           onChange={handleInputChange}
-          inputProps={{
-            min: 0,
-            max: 100,
-            step: 1,
-            type: "number",
-          }}
+          inputProps={{ min: 0, max: 100, step: 1, type: "number" }}
           sx={{ width: 80 }}
         />
 
@@ -82,12 +68,7 @@ export const ColorSwatch: FC<IProps> = ({ color, onChange }) => {
           label="Blue"
           value={color.b}
           onChange={handleInputChange}
-          inputProps={{
-            min: 0,
-            max: 100,
-            step: 1,
-            type: "number",
-          }}
+          inputProps={{ min: 0, max: 100, step: 1, type: "number" }}
           sx={{ width: 80, ml: 1 }}
         />
       </Box>

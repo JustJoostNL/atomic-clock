@@ -1,4 +1,4 @@
-import { Shadows } from "@mui/material/styles/shadows";
+import type { Shadows } from "@mui/material/styles";
 
 const shadowKeyBorderOpacity = 0.31;
 const shadowKeyUmbraOpacity = 0.12;

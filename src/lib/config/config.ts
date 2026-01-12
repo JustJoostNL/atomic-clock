@@ -1,6 +1,6 @@
 import deepEqual from "deep-equal";
 import EventEmitter from "eventemitter3";
-import { IConfig } from "./config_types";
+import type { IConfig } from "./config_types";
 import { defaultConfig } from "./defaultConfig";
 
 export const configEventEmitter = new EventEmitter();
@@ -19,7 +19,7 @@ export function readConfig(): IConfig {
     if (!configJSON) return defaultConfig;
 
     return JSON.parse(configJSON);
-  } catch (err) {
+  } catch {
     return defaultConfig;
   }
 }
