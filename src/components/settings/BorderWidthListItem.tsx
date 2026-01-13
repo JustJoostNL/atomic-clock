@@ -7,12 +7,28 @@ export const BorderWidthListItem: FC = () => {
   const { config, updateConfig } = useConfig();
 
   return (
-    <ListItem>
+    <ListItem
+      sx={{
+        flexDirection: { xs: "column", sm: "row" },
+        alignItems: { xs: "flex-start", sm: "center" },
+        gap: { xs: 1, sm: 0 },
+        py: 1.5,
+      }}
+    >
       <ListItemText
         primary="Clock border width"
-        secondary="The width of the border around the clock"
+        secondary="Width of the border around clock"
+        sx={{ flex: 1, minWidth: { xs: "100%", sm: "auto" } }}
       />
-      <div style={{ width: 300, display: "flex", alignItems: "center" }}>
+      <div
+        style={{
+          width: "100%",
+          maxWidth: 300,
+          display: "flex",
+          alignItems: "center",
+          gap: 8,
+        }}
+      >
         <SettingResetButton configItem="clockBorderWidth" />
         <Slider
           value={config.clockBorderWidth}
@@ -23,6 +39,7 @@ export const BorderWidthListItem: FC = () => {
           onChange={(_, value) =>
             updateConfig({ clockBorderWidth: value as number })
           }
+          sx={{ flex: 1 }}
         />
       </div>
     </ListItem>

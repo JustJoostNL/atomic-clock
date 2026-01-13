@@ -14,6 +14,20 @@ export enum FontStyle {
   OBLIQUE = "oblique",
 }
 
+export enum HandShape {
+  STRAIGHT = "straight",
+  ARROW = "arrow",
+  TRIANGLE = "triangle",
+  ROUNDED = "rounded",
+}
+
+export enum TextTransform {
+  NONE = "none",
+  UPPERCASE = "uppercase",
+  LOWERCASE = "lowercase",
+  CAPITALIZE = "capitalize",
+}
+
 export interface IConfig {
   timezone: (typeof timezoneList)[number];
   showMilliseconds: boolean;
@@ -50,4 +64,31 @@ export interface IConfig {
   clockBorderStyle: BorderStyle;
   clockTickMarksColor: RgbColor;
   clockTickMarksWidthMultiplier: number;
+  // Analog Clock Enhancements
+  useRomanNumerals: boolean;
+  hideClockNumbers: boolean;
+  reverseRotation: boolean;
+  clockHandShape: HandShape;
+  showCenterDot: boolean;
+  centerDotColor: RgbColor;
+  centerDotSize: number;
+  clockFaceGradient: boolean;
+  clockFaceGradientStart: RgbColor;
+  clockFaceGradientEnd: RgbColor;
+  handGlowIntensity: number;
+  handShadowIntensity: number;
+  // Digital Clock Enhancements
+  textGlowIntensity: number;
+  textShadowIntensity: number;
+  textGradient: boolean;
+  textGradientStart: RgbColor;
+  textGradientEnd: RgbColor;
+  letterSpacing: number;
+  textTransform: TextTransform;
+  customSeparator: string;
+  pulseAnimation: boolean;
+  pulseSpeed: number;
+  blinkSeparators: boolean;
+  // Animation Settings
+  transitionSpeed: number;
 }

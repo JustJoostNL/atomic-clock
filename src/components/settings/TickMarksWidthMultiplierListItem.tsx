@@ -7,12 +7,28 @@ export const TickMarksWidthMultiplierListItem: FC = () => {
   const { config, updateConfig } = useConfig();
 
   return (
-    <ListItem>
+    <ListItem
+      sx={{
+        flexDirection: { xs: "column", sm: "row" },
+        alignItems: { xs: "flex-start", sm: "center" },
+        gap: { xs: 1, sm: 0 },
+        py: 1.5,
+      }}
+    >
       <ListItemText
-        primary="Tick marks width multiplier"
-        secondary="Adjust the width of the tick marks"
+        primary="Tick marks width"
+        secondary="Adjust width of tick marks"
+        sx={{ flex: 1, minWidth: { xs: "100%", sm: "auto" } }}
       />
-      <div style={{ width: 300, display: "flex", alignItems: "center" }}>
+      <div
+        style={{
+          width: "100%",
+          maxWidth: 300,
+          display: "flex",
+          alignItems: "center",
+          gap: 8,
+        }}
+      >
         <SettingResetButton configItem="clockTickMarksWidthMultiplier" />
         <Slider
           value={config.clockTickMarksWidthMultiplier}
@@ -23,6 +39,7 @@ export const TickMarksWidthMultiplierListItem: FC = () => {
           onChange={(_, value) =>
             updateConfig({ clockTickMarksWidthMultiplier: value as number })
           }
+          sx={{ flex: 1 }}
         />
       </div>
     </ListItem>

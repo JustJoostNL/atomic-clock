@@ -28,9 +28,28 @@ export const HandWidthListItem: FC<IProps> = ({
   );
 
   return (
-    <ListItem>
-      <ListItemText primary={primary} secondary={secondary} />
-      <div style={{ width: 300, display: "flex", alignItems: "center" }}>
+    <ListItem
+      sx={{
+        flexDirection: { xs: "column", sm: "row" },
+        alignItems: { xs: "flex-start", sm: "center" },
+        gap: { xs: 1, sm: 0 },
+        py: 1.5,
+      }}
+    >
+      <ListItemText
+        primary={primary}
+        secondary={secondary}
+        sx={{ flex: 1, minWidth: { xs: "100%", sm: "auto" } }}
+      />
+      <div
+        style={{
+          width: "100%",
+          maxWidth: 300,
+          display: "flex",
+          alignItems: "center",
+          gap: 8,
+        }}
+      >
         <SettingResetButton configItem={configItem} />
         <Slider
           value={config[configItem]}
@@ -39,6 +58,7 @@ export const HandWidthListItem: FC<IProps> = ({
           step={0.1}
           valueLabelDisplay="auto"
           onChange={handleChange}
+          sx={{ flex: 1 }}
         />
       </div>
     </ListItem>

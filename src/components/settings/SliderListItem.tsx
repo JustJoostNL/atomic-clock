@@ -1,9 +1,26 @@
 import { ListItem, ListItemText, Slider } from "@mui/material";
 import type { FC } from "react";
 import { useConfig } from "@/hooks/useConfig";
+import type { IConfig } from "@/lib/config/config_types";
 import { SettingResetButton } from "./SettingResetButton";
 
-export const FontSizeMultiplierListItem: FC = () => {
+interface IProps {
+  primary: string;
+  secondary: string;
+  configItem: keyof IConfig;
+  min: number;
+  max: number;
+  step: number;
+}
+
+export const SliderListItem: FC<IProps> = ({
+  primary,
+  secondary,
+  configItem,
+  min,
+  max,
+  step,
+}) => {
   const { config, updateConfig } = useConfig();
 
   return (
@@ -16,8 +33,8 @@ export const FontSizeMultiplierListItem: FC = () => {
       }}
     >
       <ListItemText
-        primary="Font size multiplier"
-        secondary="Adjust the size of the font"
+        primary={primary}
+        secondary={secondary}
         sx={{ flex: 1, minWidth: { xs: "100%", sm: "auto" } }}
       />
       <div
@@ -29,16 +46,15 @@ export const FontSizeMultiplierListItem: FC = () => {
           maxWidth: 300,
         }}
       >
-        <SettingResetButton configItem="fontSizeMultiplier" />
-
+        <SettingResetButton configItem={configItem} />
         <Slider
-          value={config.fontSizeMultiplier}
-          min={0.5}
-          max={2}
-          step={0.1}
+          value={Number(config[configItem])}
+          min={min}
+          max={max}
+          step={step}
           valueLabelDisplay="auto"
           onChange={(_, value) =>
-            updateConfig({ fontSizeMultiplier: value as number })
+            updateConfig({ [configItem]: value as number })
           }
           sx={{ flex: 1 }}
         />

@@ -1,4 +1,10 @@
-import { BorderStyle, FontStyle, type IConfig } from "./config_types";
+import {
+  BorderStyle,
+  FontStyle,
+  HandShape,
+  type IConfig,
+  TextTransform,
+} from "./config_types";
 
 export const defaultConfig: IConfig = {
   timezone: "Europe/Amsterdam",
@@ -36,4 +42,31 @@ export const defaultConfig: IConfig = {
   clockBorderWidth: 3,
   clockTickMarksWidthMultiplier: 1,
   clockBorderStyle: BorderStyle.SOLID,
+  // Analog Clock Enhancements
+  useRomanNumerals: false,
+  hideClockNumbers: false,
+  reverseRotation: false,
+  clockHandShape: HandShape.STRAIGHT,
+  showCenterDot: true,
+  centerDotColor: { r: 255, g: 255, b: 255 },
+  centerDotSize: 1,
+  clockFaceGradient: false,
+  clockFaceGradientStart: { r: 30, g: 30, b: 60 },
+  clockFaceGradientEnd: { r: 10, g: 10, b: 20 },
+  handGlowIntensity: 0,
+  handShadowIntensity: 0,
+  // Digital Clock Enhancements
+  textGlowIntensity: 0,
+  textShadowIntensity: 0,
+  textGradient: false,
+  textGradientStart: { r: 255, g: 255, b: 255 },
+  textGradientEnd: { r: 100, g: 100, b: 255 },
+  letterSpacing: 0,
+  textTransform: TextTransform.NONE,
+  customSeparator: "",
+  pulseAnimation: false,
+  pulseSpeed: 1,
+  blinkSeparators: false,
+  // Animation Settings
+  transitionSpeed: 1,
 };

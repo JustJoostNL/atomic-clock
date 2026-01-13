@@ -7,12 +7,14 @@ interface IProps {
   primary: string;
   secondary: string;
   configItem: keyof IConfig;
+  inverted?: boolean;
 }
 
 export const SettingsSwitchListItem: FC<IProps> = ({
   primary,
   secondary,
   configItem,
+  inverted = false,
 }) => {
   const { config, updateConfig } = useConfig();
 
@@ -20,10 +22,12 @@ export const SettingsSwitchListItem: FC<IProps> = ({
     updateConfig({ [configItem]: !config[configItem] });
   }, [config, configItem, updateConfig]);
 
+  const checked = inverted ? !config[configItem] : !!config[configItem];
+
   return (
     <ListItem>
       <ListItemText primary={primary} secondary={secondary} />
-      <Switch checked={Boolean(config[configItem])} onChange={handleChange} />
+      <Switch checked={checked} onChange={handleChange} />
     </ListItem>
   );
 };

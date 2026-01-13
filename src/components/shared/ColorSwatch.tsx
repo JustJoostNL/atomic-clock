@@ -52,7 +52,9 @@ export const ColorSwatch: FC<IProps> = ({ color, onChange }) => {
           label="Red"
           value={color.r}
           onChange={handleInputChange}
-          inputProps={{ min: 0, max: 100, step: 1, type: "number" }}
+          slotProps={{
+            htmlInput: { min: 0, max: 100, step: 1, type: "number" },
+          }}
           sx={{ width: 80, mr: 1 }}
         />
 
@@ -60,7 +62,9 @@ export const ColorSwatch: FC<IProps> = ({ color, onChange }) => {
           label="Green"
           value={color.g}
           onChange={handleInputChange}
-          inputProps={{ min: 0, max: 100, step: 1, type: "number" }}
+          slotProps={{
+            htmlInput: { min: 0, max: 100, step: 1, type: "number" },
+          }}
           sx={{ width: 80 }}
         />
 
@@ -68,7 +72,9 @@ export const ColorSwatch: FC<IProps> = ({ color, onChange }) => {
           label="Blue"
           value={color.b}
           onChange={handleInputChange}
-          inputProps={{ min: 0, max: 100, step: 1, type: "number" }}
+          slotProps={{
+            htmlInput: { min: 0, max: 100, step: 1, type: "number" },
+          }}
           sx={{ width: 80, ml: 1 }}
         />
       </Box>

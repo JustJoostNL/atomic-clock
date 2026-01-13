@@ -7,12 +7,28 @@ export const TextBackgroundOpacityListItem: FC = () => {
   const { config, updateConfig } = useConfig();
 
   return (
-    <ListItem>
+    <ListItem
+      sx={{
+        flexDirection: { xs: "column", sm: "row" },
+        alignItems: { xs: "flex-start", sm: "center" },
+        gap: { xs: 1, sm: 0 },
+        py: 1.5,
+      }}
+    >
       <ListItemText
         primary="Text background opacity"
-        secondary="The opacity of the background behind the text"
+        secondary="Opacity of background behind text"
+        sx={{ flex: 1, minWidth: { xs: "100%", sm: "auto" } }}
       />
-      <div style={{ width: 300, display: "flex", alignItems: "center" }}>
+      <div
+        style={{
+          width: "100%",
+          maxWidth: 300,
+          display: "flex",
+          alignItems: "center",
+          gap: 8,
+        }}
+      >
         <SettingResetButton configItem="textBackgroundOpacity" />
         <Slider
           value={config.textBackgroundOpacity}
@@ -23,6 +39,7 @@ export const TextBackgroundOpacityListItem: FC = () => {
           onChange={(_, value) =>
             updateConfig({ textBackgroundOpacity: value as number })
           }
+          sx={{ flex: 1 }}
         />
       </div>
     </ListItem>

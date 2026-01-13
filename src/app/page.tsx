@@ -1,11 +1,15 @@
 "use client";
-import { AccessTimeRounded, SettingsRounded } from "@mui/icons-material";
-import { Box, Container, IconButton, Tooltip, useTheme } from "@mui/material";
+import {
+  AccessTimeRounded,
+  BugReportRounded,
+  SettingsRounded,
+} from "@mui/icons-material";
+import { Container, IconButton, Tooltip, useTheme } from "@mui/material";
 import { Fragment, useCallback, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
-import { JSONTree } from "react-json-tree";
 import { ClockDisplay } from "@/components/clocks/ClockDisplay";
 import { SettingsDialog } from "@/components/settings/SettingsDialog";
+import { DebugDialog } from "@/components/shared/DebugDialog";
 import { KeyboardHotkey } from "@/components/shared/KeyboardHotkey";
 import { useConfig } from "@/hooks/useConfig";
 import { useDebug } from "@/hooks/useDebug";
@@ -19,6 +23,7 @@ export default function Index() {
   const theme = useTheme();
   const settingsButtonVisible = useVisibleOnMouseMove(3000);
   const [settingsVisible, setSettingsVisible] = useState(false);
+  const [debugVisible, setDebugVisible] = useState(false);
 
   const { time, error, lastSync, isInitialized, accuracy } = useTime();
 
@@ -30,8 +35,13 @@ export default function Index() {
     setSettingsVisible((prev) => !prev);
   }, []);
 
+  const toggleDebug = useCallback(() => {
+    setDebugVisible((prev) => !prev);
+  }, []);
+
   useHotkeys("s", toggleSettings);
   useHotkeys("a", toggleDigitalClock);
+  useHotkeys("d", toggleDebug);
 
   const backgroundColor = formatRGB(config.backgroundColor);
 
@@ -52,6 +62,19 @@ export default function Index() {
         <SettingsDialog
           open={settingsVisible}
           onClose={() => setSettingsVisible(false)}
+        />
+
+        <DebugDialog
+          open={debugVisible}
+          onClose={() => setDebugVisible(false)}
+          data={{
+            time,
+            lastSync,
+            error: error?.message,
+            isInitialized,
+            accuracy,
+            config,
+          }}
         />
 
         {settingsButtonVisible && (
@@ -99,25 +122,35 @@ export default function Index() {
                 />
               </IconButton>
             </Tooltip>
+
+            {debug && (
+              <Tooltip
+                arrow
+                placement="left"
+                title={
+                  <Fragment>
+                    Hint: Press <KeyboardHotkey>D</KeyboardHotkey> to open debug
+                    info
+                  </Fragment>
+                }
+              >
+                <IconButton
+                  onClick={toggleDebug}
+                  size="large"
+                  sx={{ position: "absolute", top: 150, right: 15 }}
+                >
+                  <BugReportRounded
+                    fontSize="large"
+                    htmlColor={theme.palette.getContrastText(backgroundColor)}
+                  />
+                </IconButton>
+              </Tooltip>
+            )}
           </Fragment>
         )}
 
         <ClockDisplay time={time} config={config} />
       </Container>
-      <Box sx={{ width: "100%", position: "absolute", bottom: 0 }}>
-        {debug && (
-          <JSONTree
-            data={{
-              time,
-              lastSync,
-              error: error?.message,
-              isInitialized,
-              accuracy,
-              config,
-            }}
-          />
-        )}
-      </Box>
     </div>
   );
 }

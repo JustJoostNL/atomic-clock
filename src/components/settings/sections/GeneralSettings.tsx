@@ -1,28 +1,32 @@
 "use client";
-import { Box, List, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import { ColorListItem } from "../ColorListItem";
+import { SettingSection } from "../SettingSection";
+import { SettingsSwitchListItem } from "../SettingsSwitchListItem";
 import { TimeZoneListItem } from "../TimeZoneListItem";
 
 export function GeneralSettings() {
   return (
     <Box>
-      <Typography variant="h6" component="div" sx={{ mb: 2 }}>
-        Server & Location
-      </Typography>
-      <List disablePadding>
-        <TimeZoneListItem />
-      </List>
+      <SettingSection title="Clock Mode">
+        <SettingsSwitchListItem
+          primary="Use analog clock"
+          secondary="Toggle between analog and digital clock display"
+          configItem="useAnalogClock"
+        />
+      </SettingSection>
 
-      <Typography variant="h6" component="div" sx={{ mt: 3, mb: 2 }}>
-        Background
-      </Typography>
-      <List disablePadding>
+      <SettingSection title="Time & Location">
+        <TimeZoneListItem />
+      </SettingSection>
+
+      <SettingSection title="Appearance">
         <ColorListItem
           primary="Background color"
-          secondary="Changes the color of the clock background"
+          secondary="Changes the page background color"
           configItem="backgroundColor"
         />
-      </List>
+      </SettingSection>
     </Box>
   );
 }

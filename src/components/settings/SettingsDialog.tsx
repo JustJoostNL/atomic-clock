@@ -1,5 +1,9 @@
 "use client";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Box,
   Button,
   Dialog,
@@ -7,8 +11,9 @@ import {
   DialogContent,
   DialogTitle,
   Divider,
-  Tab,
-  Tabs,
+  Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { type FC, useCallback, useState } from "react";
 import { useConfig } from "@/hooks/useConfig";
@@ -22,21 +27,11 @@ interface IProps {
   onClose: () => void;
 }
 
-const TabPanel: FC<{
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}> = ({ children, value, index }) => {
-  return (
-    <div hidden={value !== index}>
-      {value === index && <Box sx={{ py: 2 }}>{children}</Box>}
-    </div>
-  );
-};
-
 export const SettingsDialog: FC<IProps> = ({ open, onClose }) => {
-  const { updateConfig } = useConfig();
-  const [tabValue, setTabValue] = useState(0);
+  const { config, updateConfig } = useConfig();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const [expanded, setExpanded] = useState<string | false>("general");
 
   const handleResetAll = useCallback(() => {
     if (confirm("Are you sure you want to reset all settings?")) {
@@ -44,44 +39,101 @@ export const SettingsDialog: FC<IProps> = ({ open, onClose }) => {
     }
   }, [updateConfig]);
 
-  const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
-    setTabValue(newValue);
-  };
+  const handleChange =
+    (panel: string) => (_event: React.SyntheticEvent, isExpanded: boolean) => {
+      setExpanded(isExpanded ? panel : false);
+    };
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
-      <DialogTitle>Settings</DialogTitle>
+    <Dialog
+      open={open}
+      onClose={onClose}
+      maxWidth="md"
+      fullWidth
+      fullScreen={isMobile}
+      slotProps={{ paper: { sx: { maxHeight: isMobile ? "100%" : "90vh" } } }}
+    >
+      <DialogTitle>
+        <Typography variant="h5" component="div">
+          Settings
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          Customize your clock experience
+        </Typography>
+      </DialogTitle>
 
-      <Tabs
-        value={tabValue}
-        onChange={handleTabChange}
-        aria-label="settings tabs"
-        sx={{ px: 3, borderBottom: 1, borderColor: "divider" }}
-      >
-        <Tab label="General" />
-        <Tab label="Digital Clock" />
-        <Tab label="Analog Clock" />
-      </Tabs>
+      <Divider />
 
-      <DialogContent sx={{ maxHeight: "calc(100vh - 300px)", px: 3 }}>
-        <TabPanel value={tabValue} index={0}>
-          <GeneralSettings />
-        </TabPanel>
-        <TabPanel value={tabValue} index={1}>
-          <DigitalClockSettings />
-        </TabPanel>
-        <TabPanel value={tabValue} index={2}>
-          <AnalogClockSettings />
-        </TabPanel>
+      <DialogContent sx={{ p: 0 }}>
+        <Accordion
+          expanded={expanded === "general"}
+          onChange={handleChange("general")}
+          disableGutters
+          elevation={0}
+        >
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography variant="h6">General</Typography>
+          </AccordionSummary>
+          <AccordionDetails sx={{ px: 3, pb: 3 }}>
+            <GeneralSettings />
+          </AccordionDetails>
+        </Accordion>
+
+        <Divider />
+
+        <Accordion
+          expanded={expanded === "digital"}
+          onChange={handleChange("digital")}
+          disableGutters
+          elevation={0}
+          disabled={config.useAnalogClock}
+        >
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography variant="h6">Digital Clock</Typography>
+          </AccordionSummary>
+          <AccordionDetails sx={{ px: 3, pb: 3 }}>
+            <DigitalClockSettings />
+          </AccordionDetails>
+        </Accordion>
+
+        <Divider />
+
+        <Accordion
+          expanded={expanded === "analog"}
+          onChange={handleChange("analog")}
+          disableGutters
+          elevation={0}
+          disabled={!config.useAnalogClock}
+        >
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography variant="h6">Analog Clock</Typography>
+          </AccordionSummary>
+          <AccordionDetails sx={{ px: 3, pb: 3 }}>
+            <AnalogClockSettings />
+          </AccordionDetails>
+        </Accordion>
       </DialogContent>
 
       <Divider />
 
-      <DialogActions sx={{ justifyContent: "space-between", px: 3, py: 2 }}>
-        <Button color="error" onClick={handleResetAll} variant="outlined">
-          Reset all settings
+      <DialogActions
+        sx={{
+          flexDirection: isMobile ? "column" : "row",
+          gap: 1,
+          px: 3,
+          py: 2,
+        }}
+      >
+        <Button
+          color="error"
+          onClick={handleResetAll}
+          variant="outlined"
+          fullWidth={isMobile}
+        >
+          Reset All Settings
         </Button>
-        <Button onClick={onClose} variant="contained">
+        <Box sx={{ flex: 1 }} />
+        <Button onClick={onClose} variant="contained" fullWidth={isMobile}>
           Close
         </Button>
       </DialogActions>

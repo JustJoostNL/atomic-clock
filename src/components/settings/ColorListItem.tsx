@@ -26,7 +26,12 @@ interface IProps {
     | "backgroundColor"
     | "clockDigitsColor"
     | "clockBorderColor"
-    | "clockTickMarksColor";
+    | "clockTickMarksColor"
+    | "centerDotColor"
+    | "clockFaceGradientStart"
+    | "clockFaceGradientEnd"
+    | "textGradientStart"
+    | "textGradientEnd";
 }
 
 export const ColorListItem: FC<IProps> = ({
@@ -45,14 +50,38 @@ export const ColorListItem: FC<IProps> = ({
   );
 
   return (
-    <ListItem>
-      <ListItemText primary={primary} secondary={secondary} />
+    <ListItem
+      sx={{
+        flexDirection: { xs: "column", sm: "row" },
+        alignItems: { xs: "flex-start", sm: "center" },
+        gap: { xs: 1, sm: 0 },
+        py: 1.5,
+      }}
+    >
+      <ListItemText
+        primary={primary}
+        secondary={secondary}
+        sx={{ flex: 1, minWidth: { xs: "100%", sm: "auto" } }}
+      />
 
-      <SettingResetButton configItem={configItem} />
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: 1,
+          width: { xs: "100%", sm: "auto" },
+        }}
+      >
+        <SettingResetButton configItem={configItem} />
 
-      <Button variant="contained" onClick={() => setOpen(true)}>
-        Change
-      </Button>
+        <Button
+          variant="contained"
+          onClick={() => setOpen(true)}
+          fullWidth={false}
+        >
+          Change
+        </Button>
+      </Box>
 
       <Dialog
         open={open}

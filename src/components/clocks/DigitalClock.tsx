@@ -1,8 +1,9 @@
 "use client";
 import { Box, Typography } from "@mui/material";
+import Color from "color";
 import { type FC, useMemo } from "react";
 import type { IConfig } from "@/lib/config/config_types";
-import { FontStyle } from "@/lib/config/config_types";
+import { FontStyle, TextTransform } from "@/lib/config/config_types";
 import { formatRGB, formatRGBA } from "@/lib/utils";
 
 interface IProps {
@@ -11,33 +12,47 @@ interface IProps {
 }
 
 export const DigitalClock: FC<IProps> = ({ time, config }) => {
-  const displayedTime = useMemo(
-    () =>
-      time
-        ?.toLocaleTimeString(undefined, {
-          hour: "2-digit",
-          minute: "2-digit",
-          second: config.hideSeconds ? undefined : "2-digit",
-          timeZone: config.timezone,
-          fractionalSecondDigits: config.showMilliseconds
-            ? config.fractionalSecondDigits
-            : undefined,
-          hour12: config.use12HourFormat,
-        })
-        .replace(/[,:.]/g, (match) => {
-          if (config.hideSeparators) return "";
-          return match === "," ? "." : match === ":" ? ":" : ".";
-        }),
-    [
-      config.fractionalSecondDigits,
-      config.hideSeconds,
-      config.hideSeparators,
-      config.showMilliseconds,
-      config.timezone,
-      config.use12HourFormat,
-      time,
-    ],
-  );
+  const displayedTime = useMemo(() => {
+    const timeStr = time
+      ?.toLocaleTimeString(undefined, {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: config.hideSeconds ? undefined : "2-digit",
+        timeZone: config.timezone,
+        fractionalSecondDigits: config.showMilliseconds
+          ? config.fractionalSecondDigits
+          : undefined,
+        hour12: config.use12HourFormat,
+      })
+      .replace(/[,:.]/g, (match) => {
+        if (config.hideSeparators) return "";
+        if (config.customSeparator) {
+          return match === "," ? "." : config.customSeparator;
+        }
+        return match === "," ? "." : match === ":" ? ":" : ".";
+      });
+
+    if (config.textTransform === TextTransform.UPPERCASE) {
+      return timeStr?.toUpperCase();
+    }
+    if (config.textTransform === TextTransform.LOWERCASE) {
+      return timeStr?.toLowerCase();
+    }
+    if (config.textTransform === TextTransform.CAPITALIZE) {
+      return timeStr?.charAt(0).toUpperCase() + timeStr?.slice(1);
+    }
+    return timeStr;
+  }, [
+    config.fractionalSecondDigits,
+    config.hideSeconds,
+    config.hideSeparators,
+    config.showMilliseconds,
+    config.timezone,
+    config.use12HourFormat,
+    config.customSeparator,
+    config.textTransform,
+    time,
+  ]);
 
   const textColor = formatRGB(config.textColor);
   const dateTextColor = formatRGB(config.dateTextColor);
@@ -45,6 +60,46 @@ export const DigitalClock: FC<IProps> = ({ time, config }) => {
     config.textBackgroundColor,
     config.textBackgroundOpacity,
   );
+  const textGradientStart = useMemo(
+    () => Color(config.textGradientStart).rgb().string(),
+    [config.textGradientStart],
+  );
+  const textGradientEnd = useMemo(
+    () => Color(config.textGradientEnd).rgb().string(),
+    [config.textGradientEnd],
+  );
+
+  const textGlow = useMemo(() => {
+    if (config.textGlowIntensity === 0) return "none";
+    return `0 0 ${config.textGlowIntensity * 5}px ${textColor}, 0 0 ${config.textGlowIntensity * 10}px ${textColor}`;
+  }, [config.textGlowIntensity, textColor]);
+
+  const textShadow = useMemo(() => {
+    if (config.textShadowIntensity === 0 && config.textGlowIntensity === 0)
+      return "none";
+    const shadows = [];
+    if (config.textGlowIntensity > 0) {
+      shadows.push(textGlow);
+    }
+    if (config.textShadowIntensity > 0) {
+      shadows.push(
+        `${config.textShadowIntensity * 2}px ${config.textShadowIntensity * 2}px ${config.textShadowIntensity * 4}px rgba(0, 0, 0, 0.8)`,
+      );
+    }
+    return shadows.join(", ");
+  }, [config.textShadowIntensity, config.textGlowIntensity, textGlow]);
+
+  const textStyle = useMemo(() => {
+    if (config.textGradient) {
+      return {
+        background: `linear-gradient(135deg, ${textGradientStart}, ${textGradientEnd})`,
+        WebkitBackgroundClip: "text",
+        WebkitTextFillColor: "transparent",
+        backgroundClip: "text",
+      };
+    }
+    return { color: textColor };
+  }, [config.textGradient, textGradientStart, textGradientEnd, textColor]);
 
   const cleanTimeLength = displayedTime
     ? displayedTime.replace(/:/g, "").length
@@ -53,6 +108,21 @@ export const DigitalClock: FC<IProps> = ({ time, config }) => {
   const calculatedFontSize = `${(120 / (cleanTimeLength - 0.5)) * config.fontSizeMultiplier}vw`;
   const calculatedDateFontSize = `${(120 / 25) * config.fontSizeMultiplier}vw`;
 
+  const pulseAnimation = config.pulseAnimation
+    ? `pulse ${2 / config.pulseSpeed}s ease-in-out infinite`
+    : "none";
+
+  const blinkAnimation = config.blinkSeparators
+    ? `blink ${1 / config.pulseSpeed}s step-end infinite`
+    : "none";
+
+  const displayedTimeWithBlink = useMemo(() => {
+    if (!config.blinkSeparators || config.hideSeparators) {
+      return displayedTime;
+    }
+    return displayedTime;
+  }, [displayedTime, config.blinkSeparators, config.hideSeparators]);
+
   return (
     <Box
       sx={{
@@ -60,11 +130,18 @@ export const DigitalClock: FC<IProps> = ({ time, config }) => {
         flexDirection: "column",
         alignItems: "center",
         gap: 1,
+        "@keyframes pulse": {
+          "0%, 100%": { transform: "scale(1)", opacity: 1 },
+          "50%": { transform: "scale(1.02)", opacity: 0.95 },
+        },
+        "@keyframes blink": {
+          "0%, 49%": { opacity: 1 },
+          "50%, 100%": { opacity: 0 },
+        },
       }}
     >
       <Typography
         fontWeight={config.fontWeight}
-        color={textColor}
         fontSize={calculatedFontSize}
         align="center"
         sx={{
@@ -80,10 +157,29 @@ export const DigitalClock: FC<IProps> = ({ time, config }) => {
               : config.fontStyle === FontStyle.OBLIQUE
                 ? "oblique"
                 : "normal",
-          letterSpacing: config.hideSeparators ? "0.05em" : "0",
+          letterSpacing: config.hideSeparators
+            ? "0.05em"
+            : `${config.letterSpacing}em`,
+          textShadow: textShadow,
+          animation: pulseAnimation,
+          transition: `all ${config.transitionSpeed * 0.3}s ease-in-out`,
+          ...textStyle,
+          "& .separator": { animation: blinkAnimation },
         }}
       >
-        {displayedTime}
+        {config.blinkSeparators && !config.hideSeparators
+          ? displayedTimeWithBlink?.split("").map((char, idx) => {
+              const isSeparator =
+                char === ":" || char === "." || char === config.customSeparator;
+              return isSeparator ? (
+                <span key={`sep-${idx}-${char}`} className="separator">
+                  {char}
+                </span>
+              ) : (
+                <span key={`char-${idx}-${char}`}>{char}</span>
+              );
+            })
+          : displayedTimeWithBlink}
       </Typography>
 
       {config.displayDate && (

@@ -1,121 +1,237 @@
 "use client";
-import { Box, List, Typography } from "@mui/material";
-import { BorderStyleListItem } from "../BorderStyleListItem";
-import { BorderWidthListItem } from "../BorderWidthListItem";
+import { Box } from "@mui/material";
+import { BorderStyle, HandShape } from "@/lib/config/config_types";
 import { ColorListItem } from "../ColorListItem";
-import { HandWidthListItem } from "../HandWidthListItem";
+import { SelectListItem } from "../SelectListItem";
+import { SettingSection } from "../SettingSection";
 import { SettingsSwitchListItem } from "../SettingsSwitchListItem";
-import { TickMarksWidthMultiplierListItem } from "../TickMarksWidthMultiplierListItem";
+import { SliderListItem } from "../SliderListItem";
 
 export function AnalogClockSettings() {
   return (
     <Box>
-      <Typography variant="h6" component="div" sx={{ mb: 2 }}>
-        Clock Options
-      </Typography>
-      <List disablePadding>
-        <SettingsSwitchListItem
-          primary="Use analog clock"
-          secondary="If enabled, the clock will be displayed as an analog clock"
-          configItem="useAnalogClock"
-        />
+      <SettingSection title="Clock Behavior">
         <SettingsSwitchListItem
           primary="Smooth seconds hand"
-          secondary="If enabled, the seconds hand will move smoothly"
+          secondary="Continuous movement instead of ticking"
           configItem="smoothSecondsHand"
         />
         <SettingsSwitchListItem
           primary="Smooth minutes hand"
-          secondary="If enabled, the minutes hand will move smoothly"
+          secondary="Continuous movement of minutes hand"
           configItem="smoothMinutesHand"
         />
         <SettingsSwitchListItem
-          primary="Hide seconds hand"
-          secondary="If enabled, the seconds hand will not be displayed"
+          primary="Show seconds hand"
+          secondary="Display the seconds hand"
           configItem="hideSecondsHand"
+          inverted
         />
         <SettingsSwitchListItem
-          primary="Hide milliseconds hand"
-          secondary="If enabled, the milliseconds hand will not be displayed"
+          primary="Show milliseconds hand"
+          secondary="Display the milliseconds hand"
           configItem="hideMillisecondsHand"
+          inverted
         />
-      </List>
+        <SettingsSwitchListItem
+          primary="Reverse rotation"
+          secondary="Counter-clockwise rotation"
+          configItem="reverseRotation"
+        />
+      </SettingSection>
 
-      <Typography variant="h6" component="div" sx={{ mt: 3, mb: 2 }}>
-        Hand Widths
-      </Typography>
-      <List disablePadding>
-        <HandWidthListItem
-          primary="Hours hand width"
-          secondary="Changes the width of the hours hand"
-          configItem="hoursHandWidth"
+      <SettingSection title="Clock Face">
+        <SettingsSwitchListItem
+          primary="Roman numerals"
+          secondary="Use Roman numerals instead of Arabic"
+          configItem="useRomanNumerals"
         />
-        <HandWidthListItem
-          primary="Minutes hand width"
-          secondary="Changes the width of the minutes hand"
-          configItem="minutesHandWidth"
+        <SettingsSwitchListItem
+          primary="Show numbers"
+          secondary="Display numbers on the clock face"
+          configItem="hideClockNumbers"
+          inverted
         />
-        <HandWidthListItem
-          primary="Seconds hand width"
-          secondary="Changes the width of the seconds hand"
-          configItem="secondsHandWidth"
+        <SettingsSwitchListItem
+          primary="Clock face gradient"
+          secondary="Apply custom gradient to clock face"
+          configItem="clockFaceGradient"
         />
-        <HandWidthListItem
-          primary="Milliseconds hand width"
-          secondary="Changes the width of the milliseconds hand"
-          configItem="millisecondsHandWidth"
-        />
-      </List>
-
-      <Typography variant="h6" component="div" sx={{ mt: 3, mb: 2 }}>
-        Hand Colors
-      </Typography>
-      <List disablePadding>
         <ColorListItem
-          primary="Hours hand color"
-          secondary="Changes the color of the hours hand"
+          primary="Gradient start"
+          secondary="Starting color of gradient"
+          configItem="clockFaceGradientStart"
+        />
+        <ColorListItem
+          primary="Gradient end"
+          secondary="Ending color of gradient"
+          configItem="clockFaceGradientEnd"
+        />
+        <ColorListItem
+          primary="Digits color"
+          secondary="Color of the hour numbers"
+          configItem="clockDigitsColor"
+        />
+      </SettingSection>
+
+      <SettingSection title="Border & Tick Marks">
+        <ColorListItem
+          primary="Border color"
+          secondary="Clock border color"
+          configItem="clockBorderColor"
+        />
+        <SliderListItem
+          primary="Border width"
+          secondary="Width of the clock border"
+          configItem="clockBorderWidth"
+          min={1}
+          max={10}
+          step={1}
+        />
+        <SelectListItem
+          primary="Border style"
+          secondary="Style of the clock border"
+          configItem="clockBorderStyle"
+          options={[
+            { value: BorderStyle.SOLID, label: "Solid" },
+            { value: BorderStyle.DASHED, label: "Dashed" },
+            { value: BorderStyle.DOTTED, label: "Dotted" },
+          ]}
+        />
+        <ColorListItem
+          primary="Tick marks color"
+          secondary="Color of the minute/hour marks"
+          configItem="clockTickMarksColor"
+        />
+        <SliderListItem
+          primary="Tick marks width"
+          secondary="Width multiplier for tick marks"
+          configItem="clockTickMarksWidthMultiplier"
+          min={0.5}
+          max={3}
+          step={0.1}
+        />
+      </SettingSection>
+
+      <SettingSection title="Hands Appearance">
+        <SelectListItem
+          primary="Hand shape"
+          secondary="Visual style of clock hands"
+          configItem="clockHandShape"
+          options={[
+            { value: HandShape.STRAIGHT, label: "Straight" },
+            { value: HandShape.ARROW, label: "Arrow" },
+            { value: HandShape.TRIANGLE, label: "Triangle" },
+            { value: HandShape.ROUNDED, label: "Rounded" },
+          ]}
+        />
+        <SliderListItem
+          primary="Hand glow"
+          secondary="Glowing effect around hands"
+          configItem="handGlowIntensity"
+          min={0}
+          max={10}
+          step={0.5}
+        />
+        <SliderListItem
+          primary="Hand shadow"
+          secondary="Shadow depth of hands"
+          configItem="handShadowIntensity"
+          min={0}
+          max={10}
+          step={0.5}
+        />
+      </SettingSection>
+
+      <SettingSection title="Hand Widths">
+        <SliderListItem
+          primary="Hours hand"
+          secondary="Width of hours hand"
+          configItem="hoursHandWidth"
+          min={0.3}
+          max={5}
+          step={0.1}
+        />
+        <SliderListItem
+          primary="Minutes hand"
+          secondary="Width of minutes hand"
+          configItem="minutesHandWidth"
+          min={0.3}
+          max={5}
+          step={0.1}
+        />
+        <SliderListItem
+          primary="Seconds hand"
+          secondary="Width of seconds hand"
+          configItem="secondsHandWidth"
+          min={0.3}
+          max={5}
+          step={0.1}
+        />
+        <SliderListItem
+          primary="Milliseconds hand"
+          secondary="Width of milliseconds hand"
+          configItem="millisecondsHandWidth"
+          min={0.3}
+          max={5}
+          step={0.1}
+        />
+      </SettingSection>
+
+      <SettingSection title="Hand Colors">
+        <ColorListItem
+          primary="Hours hand"
+          secondary="Color of hours hand"
           configItem="hoursHandColor"
         />
         <ColorListItem
-          primary="Minutes hand color"
-          secondary="Changes the color of the minutes hand"
+          primary="Minutes hand"
+          secondary="Color of minutes hand"
           configItem="minutesHandColor"
         />
         <ColorListItem
-          primary="Seconds hand color"
-          secondary="Changes the color of the seconds hand"
+          primary="Seconds hand"
+          secondary="Color of seconds hand"
           configItem="secondsHandColor"
         />
         <ColorListItem
-          primary="Milliseconds hand color"
-          secondary="Changes the color of the milliseconds hand"
+          primary="Milliseconds hand"
+          secondary="Color of milliseconds hand"
           configItem="millisecondsHandColor"
         />
-      </List>
+      </SettingSection>
 
-      <Typography variant="h6" component="div" sx={{ mt: 3, mb: 2 }}>
-        Clock Face
-      </Typography>
-      <List disablePadding>
-        <ColorListItem
-          primary="Clock digits color"
-          secondary="Changes the color of the digits"
-          configItem="clockDigitsColor"
+      <SettingSection title="Center Dot">
+        <SettingsSwitchListItem
+          primary="Show center dot"
+          secondary="Display dot at clock center"
+          configItem="showCenterDot"
         />
         <ColorListItem
-          primary="Clock border color"
-          secondary="Changes the color of the border"
-          configItem="clockBorderColor"
+          primary="Dot color"
+          secondary="Center dot color"
+          configItem="centerDotColor"
         />
-        <BorderWidthListItem />
-        <BorderStyleListItem />
-        <ColorListItem
-          primary="Clock tick marks color"
-          secondary="Changes the color of the tick marks"
-          configItem="clockTickMarksColor"
+        <SliderListItem
+          primary="Center dot size"
+          secondary="Size of the center dot"
+          configItem="centerDotSize"
+          min={0}
+          max={20}
+          step={1}
         />
-        <TickMarksWidthMultiplierListItem />
-      </List>
+      </SettingSection>
+
+      <SettingSection title="Animations">
+        <SliderListItem
+          primary="Transition speed"
+          secondary="Visual transition speed"
+          configItem="transitionSpeed"
+          min={0.1}
+          max={5}
+          step={0.1}
+        />
+      </SettingSection>
     </Box>
   );
 }

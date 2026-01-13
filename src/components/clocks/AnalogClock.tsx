@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 import Color from "color";
 import { type FC, useCallback, useMemo } from "react";
 import type { IConfig } from "@/lib/config/config_types";
-import { BorderStyle } from "@/lib/config/config_types";
+import { BorderStyle, HandShape } from "@/lib/config/config_types";
 
 interface IProps {
   date: Date;
@@ -16,12 +16,31 @@ export const AnalogClock: FC<IProps> = ({ date, size = 200, config }) => {
   const seconds = date.getSeconds();
   const milliseconds = date.getMilliseconds();
 
-  const hoursAngle = hours * 30 + minutes * 0.5 - 90;
+  const rotationMultiplier = config.reverseRotation ? -1 : 1;
+  const hoursAngle = (hours * 30 + minutes * 0.5 - 90) * rotationMultiplier;
   const minutesAngle =
-    (minutes + (config.smoothMinutesHand ? seconds / 60 : 0)) * 6 - 90;
+    ((minutes + (config.smoothMinutesHand ? seconds / 60 : 0)) * 6 - 90) *
+    rotationMultiplier;
   const secondsAngle =
-    (seconds + (config.smoothSecondsHand ? milliseconds / 1000 : 0)) * 6 - 90;
-  const millisecondsAngle = milliseconds * 0.36 - 90;
+    ((seconds + (config.smoothSecondsHand ? milliseconds / 1000 : 0)) * 6 -
+      90) *
+    rotationMultiplier;
+  const millisecondsAngle = (milliseconds * 0.36 - 90) * rotationMultiplier;
+
+  const romanNumerals = [
+    "XII",
+    "I",
+    "II",
+    "III",
+    "IV",
+    "V",
+    "VI",
+    "VII",
+    "VIII",
+    "IX",
+    "X",
+    "XI",
+  ];
 
   const borderColor = useMemo(
     () => Color(config.clockBorderColor).rgb().string(),
@@ -50,6 +69,18 @@ export const AnalogClock: FC<IProps> = ({ date, size = 200, config }) => {
   const millisecondsHandColor = useMemo(
     () => Color(config.millisecondsHandColor).rgb().string(),
     [config.millisecondsHandColor],
+  );
+  const centerDotColor = useMemo(
+    () => Color(config.centerDotColor).rgb().string(),
+    [config.centerDotColor],
+  );
+  const clockFaceGradientStart = useMemo(
+    () => Color(config.clockFaceGradientStart).rgb().string(),
+    [config.clockFaceGradientStart],
+  );
+  const clockFaceGradientEnd = useMemo(
+    () => Color(config.clockFaceGradientEnd).rgb().string(),
+    [config.clockFaceGradientEnd],
   );
 
   const getNumberPosition = useCallback((number: number) => {
@@ -92,6 +123,105 @@ export const AnalogClock: FC<IProps> = ({ date, size = 200, config }) => {
     return config.clockBorderWidth;
   }, [config.clockBorderStyle, config.clockBorderWidth]);
 
+  const renderHand = useCallback(
+    (angle: number, length: number, color: string, width: number) => {
+      const endX = 50 + length * Math.cos((angle * Math.PI) / 180);
+      const endY = 50 + length * Math.sin((angle * Math.PI) / 180);
+
+      const glowFilter =
+        config.handGlowIntensity > 0
+          ? `drop-shadow(0 0 ${config.handGlowIntensity * 3}px ${color})`
+          : "";
+      const shadowFilter =
+        config.handShadowIntensity > 0
+          ? `drop-shadow(${config.handShadowIntensity}px ${config.handShadowIntensity}px ${config.handShadowIntensity * 2}px rgba(0, 0, 0, 0.5))`
+          : "";
+      const combinedFilter = [glowFilter, shadowFilter]
+        .filter(Boolean)
+        .join(" ");
+
+      if (config.clockHandShape === HandShape.ARROW) {
+        const arrowLength = length * 0.15;
+        const angle1 = ((angle - 150) * Math.PI) / 180;
+        const angle2 = ((angle + 150) * Math.PI) / 180;
+
+        const arrowX1 = endX + arrowLength * Math.cos(angle1);
+        const arrowY1 = endY + arrowLength * Math.sin(angle1);
+        const arrowX2 = endX + arrowLength * Math.cos(angle2);
+        const arrowY2 = endY + arrowLength * Math.sin(angle2);
+
+        return (
+          <g style={{ filter: combinedFilter }}>
+            <line
+              x1="50"
+              y1="50"
+              x2={endX}
+              y2={endY}
+              stroke={color}
+              strokeWidth={width}
+              strokeLinecap="round"
+            />
+            <polygon
+              points={`${endX},${endY} ${arrowX1},${arrowY1} ${arrowX2},${arrowY2}`}
+              fill={color}
+            />
+          </g>
+        );
+      }
+
+      if (config.clockHandShape === HandShape.TRIANGLE) {
+        const baseWidth = width * 2;
+        const perpAngle = ((angle + 90) * Math.PI) / 180;
+        const baseX1 = 50 + baseWidth * Math.cos(perpAngle);
+        const baseY1 = 50 + baseWidth * Math.sin(perpAngle);
+        const baseX2 = 50 - baseWidth * Math.cos(perpAngle);
+        const baseY2 = 50 - baseWidth * Math.sin(perpAngle);
+
+        return (
+          <polygon
+            points={`${baseX1},${baseY1} ${baseX2},${baseY2} ${endX},${endY}`}
+            fill={color}
+            style={{ filter: combinedFilter }}
+          />
+        );
+      }
+
+      if (config.clockHandShape === HandShape.ROUNDED) {
+        return (
+          <line
+            x1="50"
+            y1="50"
+            x2={endX}
+            y2={endY}
+            stroke={color}
+            strokeWidth={width}
+            strokeLinecap="round"
+            style={{ filter: combinedFilter }}
+          />
+        );
+      }
+
+      // STRAIGHT (default)
+      return (
+        <line
+          x1="50"
+          y1="50"
+          x2={endX}
+          y2={endY}
+          stroke={color}
+          strokeWidth={width}
+          strokeLinecap="butt"
+          style={{ filter: combinedFilter }}
+        />
+      );
+    },
+    [
+      config.clockHandShape,
+      config.handGlowIntensity,
+      config.handShadowIntensity,
+    ],
+  );
+
   return (
     <Box
       sx={{
@@ -126,10 +256,26 @@ export const AnalogClock: FC<IProps> = ({ date, size = 200, config }) => {
             <stop offset="0%" stopColor="rgba(255, 255, 255, 0.05)" />
             <stop offset="100%" stopColor="rgba(0, 0, 0, 0.02)" />
           </radialGradient>
+          <radialGradient id="clockFaceCustom" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor={clockFaceGradientStart} />
+            <stop offset="100%" stopColor={clockFaceGradientEnd} />
+          </radialGradient>
         </defs>
 
         {/* Clock face background */}
-        <circle cx="50" cy="50" r="45" fill="url(#clockFace)" />
+        <circle
+          cx="50"
+          cy="50"
+          r="45"
+          fill={
+            config.clockFaceGradient
+              ? "url(#clockFaceCustom)"
+              : "url(#clockFace)"
+          }
+          style={{
+            transition: `all ${config.transitionSpeed * 0.3}s ease-in-out`,
+          }}
+        />
 
         {/* Clock border */}
         <circle
@@ -141,6 +287,9 @@ export const AnalogClock: FC<IProps> = ({ date, size = 200, config }) => {
           strokeWidth={strokeWidth}
           strokeDasharray={strokeDasharray}
           strokeLinecap="round"
+          style={{
+            transition: `all ${config.transitionSpeed * 0.3}s ease-in-out`,
+          }}
         />
 
         {/* Tick marks */}
@@ -169,88 +318,81 @@ export const AnalogClock: FC<IProps> = ({ date, size = 200, config }) => {
         </g>
 
         {/* Hour numbers */}
-        <g filter="url(#shadow)">
-          {Array.from({ length: 12 }, (_, i) => i + 1).map((number) => {
-            const { x, y } = getNumberPosition(number);
+        {!config.hideClockNumbers && (
+          <g filter="url(#shadow)">
+            {Array.from({ length: 12 }, (_, i) => i + 1).map((number) => {
+              const { x, y } = getNumberPosition(number);
+              const displayNumber = config.useRomanNumerals
+                ? romanNumerals[number % 12]
+                : number;
 
-            return (
-              <text
-                key={`number-${number}`}
-                x={x}
-                y={y}
-                textAnchor="middle"
-                dominantBaseline="central"
-                fill={digitsColor}
-                fontSize="9"
-                fontWeight="600"
-                fontFamily="system-ui, -apple-system, sans-serif"
-              >
-                {number}
-              </text>
-            );
-          })}
-        </g>
+              return (
+                <text
+                  key={`number-${number}`}
+                  x={x}
+                  y={y}
+                  textAnchor="middle"
+                  dominantBaseline="central"
+                  fill={digitsColor}
+                  fontSize={config.useRomanNumerals ? "7" : "9"}
+                  fontWeight="600"
+                  fontFamily="system-ui, -apple-system, sans-serif"
+                  style={{
+                    transition: `all ${config.transitionSpeed * 0.3}s ease-in-out`,
+                  }}
+                >
+                  {displayNumber}
+                </text>
+              );
+            })}
+          </g>
+        )}
 
         {/* Hour hand */}
-        <line
-          x1="50"
-          y1="50"
-          x2={50 + 22 * Math.cos((hoursAngle * Math.PI) / 180)}
-          y2={50 + 22 * Math.sin((hoursAngle * Math.PI) / 180)}
-          stroke={hoursHandColor}
-          strokeWidth={config.hoursHandWidth}
-          strokeLinecap="round"
-          filter="url(#shadow)"
-        />
+        {renderHand(hoursAngle, 22, hoursHandColor, config.hoursHandWidth)}
 
         {/* Minute hand */}
-        <line
-          x1="50"
-          y1="50"
-          x2={50 + 32 * Math.cos((minutesAngle * Math.PI) / 180)}
-          y2={50 + 32 * Math.sin((minutesAngle * Math.PI) / 180)}
-          stroke={minutesHandColor}
-          strokeWidth={config.minutesHandWidth}
-          strokeLinecap="round"
-          filter="url(#shadow)"
-        />
+        {renderHand(
+          minutesAngle,
+          32,
+          minutesHandColor,
+          config.minutesHandWidth,
+        )}
 
         {/* Seconds hand */}
-        {!config.hideSecondsHand && (
-          <line
-            x1="50"
-            y1="50"
-            x2={50 + 38 * Math.cos((secondsAngle * Math.PI) / 180)}
-            y2={50 + 38 * Math.sin((secondsAngle * Math.PI) / 180)}
-            stroke={secondsHandColor}
-            strokeWidth={config.secondsHandWidth}
-            strokeLinecap="round"
-            filter="url(#shadow)"
-          />
-        )}
+        {!config.hideSecondsHand &&
+          renderHand(
+            secondsAngle,
+            38,
+            secondsHandColor,
+            config.secondsHandWidth,
+          )}
 
         {/* Milliseconds hand */}
         {!config.hideMillisecondsHand && (
-          <line
-            x1="50"
-            y1="50"
-            x2={50 + 38 * Math.cos((millisecondsAngle * Math.PI) / 180)}
-            y2={50 + 38 * Math.sin((millisecondsAngle * Math.PI) / 180)}
-            stroke={millisecondsHandColor}
-            strokeWidth={config.millisecondsHandWidth}
-            strokeLinecap="round"
-            opacity={0.7}
-          />
+          <g opacity={0.7}>
+            {renderHand(
+              millisecondsAngle,
+              38,
+              millisecondsHandColor,
+              config.millisecondsHandWidth,
+            )}
+          </g>
         )}
 
         {/* Center dot */}
-        <circle
-          cx="50"
-          cy="50"
-          r="2"
-          fill={hoursHandColor}
-          filter="url(#shadow)"
-        />
+        {config.showCenterDot && (
+          <circle
+            cx="50"
+            cy="50"
+            r={2 * config.centerDotSize}
+            fill={centerDotColor}
+            filter="url(#shadow)"
+            style={{
+              transition: `all ${config.transitionSpeed * 0.3}s ease-in-out`,
+            }}
+          />
+        )}
       </svg>
     </Box>
   );
