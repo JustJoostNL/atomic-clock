@@ -38,8 +38,9 @@ export const DigitalClock: FC<IProps> = ({ time, config }) => {
     if (config.textTransform === TextTransform.LOWERCASE) {
       return timeStr?.toLowerCase();
     }
+    if (!timeStr) return timeStr;
     if (config.textTransform === TextTransform.CAPITALIZE) {
-      return timeStr?.charAt(0).toUpperCase() + timeStr?.slice(1);
+      return timeStr.charAt(0).toUpperCase() + timeStr.slice(1);
     }
     return timeStr;
   }, [
