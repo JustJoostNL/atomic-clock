@@ -163,7 +163,6 @@ export const DigitalClock: FC<IProps> = ({ time, config }) => {
             : `${config.letterSpacing}em`,
           textShadow: textShadow,
           animation: pulseAnimation,
-          transition: `all ${config.transitionSpeed * 0.3}s ease-in-out`,
           ...textStyle,
           "& .separator": { animation: blinkAnimation },
         }}
