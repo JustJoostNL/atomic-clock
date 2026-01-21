@@ -16,10 +16,11 @@ export const DigitalClock: FC<IProps> = ({ time, config }) => {
     if (!time) return undefined;
 
     // For fractional digits > 3, we need custom formatting since toLocaleTimeString only supports up to 3
-    const useCustomFractional = config.showMilliseconds && config.fractionalSecondDigits > 3;
-    
+    const useCustomFractional =
+      config.showMilliseconds && config.fractionalSecondDigits > 3;
+
     let timeStr: string;
-    
+
     if (useCustomFractional) {
       // Format without fractional seconds first
       const baseTime = time.toLocaleTimeString(undefined, {
@@ -29,18 +30,18 @@ export const DigitalClock: FC<IProps> = ({ time, config }) => {
         timeZone: config.timezone,
         hour12: config.use12HourFormat,
       });
-      
+
       // Get high-precision fractional seconds using performance.now()
       const perfNow = performance.now();
       const perfFractional = (perfNow % 1000) / 1000; // Get sub-second part
       const milliseconds = time.getMilliseconds();
       const combinedFractional = (milliseconds + perfFractional) / 1000;
-      
+
       // Format fractional part with requested digits
       const fractionalStr = combinedFractional
         .toFixed(config.fractionalSecondDigits)
         .slice(1); // Remove leading "0"
-      
+
       timeStr = baseTime + fractionalStr;
     } else {
       // Use native formatting for 1-3 digits
@@ -55,7 +56,7 @@ export const DigitalClock: FC<IProps> = ({ time, config }) => {
         hour12: config.use12HourFormat,
       });
     }
-    
+
     // Replace separators
     timeStr = timeStr.replace(/[,:.]/g, (match) => {
       if (config.hideSeparators) return "";
