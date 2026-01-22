@@ -1,9 +1,5 @@
 "use client";
-import {
-  AccessTimeRounded,
-  BugReportRounded,
-  SettingsRounded,
-} from "@mui/icons-material";
+import { AccessTimeRounded, SettingsRounded } from "@mui/icons-material";
 import { Container, IconButton, Tooltip, useTheme } from "@mui/material";
 import { Fragment, useCallback, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -12,18 +8,16 @@ import { SettingsDialog } from "@/components/settings/SettingsDialog";
 import { DebugDialog } from "@/components/shared/DebugDialog";
 import { KeyboardHotkey } from "@/components/shared/KeyboardHotkey";
 import { useConfig } from "@/hooks/useConfig";
-import { useDebug } from "@/hooks/useDebug";
 import { useTime } from "@/hooks/useTime";
 import { useVisibleOnMouseMove } from "@/hooks/useVisibleOnMouseMove";
 import { formatRGB } from "@/lib/utils";
 
 export default function Index() {
   const { config, updateConfig } = useConfig();
-  const debug = useDebug();
   const theme = useTheme();
   const settingsButtonVisible = useVisibleOnMouseMove(3000);
   const [settingsVisible, setSettingsVisible] = useState(false);
-  const [debugVisible, setDebugVisible] = useState(false);
+  const [debug, setDebug] = useState(false);
 
   const { time, error, lastSync, isInitialized, accuracy } = useTime();
 
@@ -36,12 +30,12 @@ export default function Index() {
   }, []);
 
   const toggleDebug = useCallback(() => {
-    setDebugVisible((prev) => !prev);
+    setDebug((prev) => !prev);
   }, []);
 
   useHotkeys("s", toggleSettings);
   useHotkeys("a", toggleDigitalClock);
-  useHotkeys("d", toggleDebug);
+  useHotkeys("shift+d", toggleDebug);
 
   const backgroundColor = formatRGB(config.backgroundColor);
 
@@ -65,8 +59,8 @@ export default function Index() {
         />
 
         <DebugDialog
-          open={debugVisible}
-          onClose={() => setDebugVisible(false)}
+          open={debug}
+          onClose={() => setDebug(false)}
           data={{
             time,
             lastSync,
@@ -122,30 +116,6 @@ export default function Index() {
                 />
               </IconButton>
             </Tooltip>
-
-            {debug && (
-              <Tooltip
-                arrow
-                placement="left"
-                title={
-                  <Fragment>
-                    Hint: Press <KeyboardHotkey>D</KeyboardHotkey> to open debug
-                    info
-                  </Fragment>
-                }
-              >
-                <IconButton
-                  onClick={toggleDebug}
-                  size="large"
-                  sx={{ position: "absolute", top: 150, right: 15 }}
-                >
-                  <BugReportRounded
-                    fontSize="large"
-                    htmlColor={theme.palette.getContrastText(backgroundColor)}
-                  />
-                </IconButton>
-              </Tooltip>
-            )}
           </Fragment>
         )}
 
