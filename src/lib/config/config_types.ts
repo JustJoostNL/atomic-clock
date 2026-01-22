@@ -31,7 +31,7 @@ export enum TextTransform {
 export interface IConfig {
   timezone: (typeof timezoneList)[number];
   showMilliseconds: boolean;
-  fractionalSecondDigits: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+  fractionalSecondDigits: 1 | 2 | 3;
   textColor: RgbColor;
   dateTextColor: RgbColor;
   textBackgroundColor: RgbColor;

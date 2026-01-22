@@ -39,13 +39,6 @@ export function DigitalClockSettings() {
             { value: 1, label: "1 digit" },
             { value: 2, label: "2 digits" },
             { value: 3, label: "3 digits" },
-            { value: 4, label: "4 digits" },
-            { value: 5, label: "5 digits" },
-            { value: 6, label: "6 digits" },
-            { value: 7, label: "7 digits" },
-            { value: 8, label: "8 digits" },
-            { value: 9, label: "9 digits" },
-            { value: 10, label: "10 digits" },
           ]}
         />
         <SettingsSwitchListItem
