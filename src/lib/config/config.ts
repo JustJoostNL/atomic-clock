@@ -32,7 +32,11 @@ export function getConfig(): IConfig {
   if (!hasConfig()) return defaultConfig;
 
   const config = readConfig();
-  return { ...defaultConfig, ...config };
+  const mergedConfig = { ...defaultConfig, ...config };
+
+  const sanitizedConfig = sanitizeConfig(mergedConfig);
+
+  return sanitizedConfig;
 }
 
 export function setConfig(config: IConfig) {
@@ -46,4 +50,15 @@ export function patchConfig(configPatch: Partial<IConfig>) {
   const config = getConfig();
   const newConfig = { ...config, ...configPatch };
   setConfig(newConfig);
+}
+
+function sanitizeConfig(config: IConfig): IConfig {
+  const sanitizedConfig = { ...config };
+
+  // Fix fractionalSecondDigits to max 3 (needed due to changes in previous versions)
+  if (sanitizedConfig.fractionalSecondDigits > 3) {
+    sanitizedConfig.fractionalSecondDigits = 3;
+  }
+
+  return sanitizedConfig;
 }
