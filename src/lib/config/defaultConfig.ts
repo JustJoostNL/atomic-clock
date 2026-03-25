@@ -42,7 +42,6 @@ export const defaultConfig: IConfig = {
   clockBorderWidth: 3,
   clockTickMarksWidthMultiplier: 1,
   clockBorderStyle: BorderStyle.SOLID,
-  // Analog Clock Enhancements
   useRomanNumerals: false,
   hideClockNumbers: false,
   reverseRotation: false,
@@ -55,7 +54,6 @@ export const defaultConfig: IConfig = {
   clockFaceGradientEnd: { r: 10, g: 10, b: 20 },
   handGlowIntensity: 0,
   handShadowIntensity: 0,
-  // Digital Clock Enhancements
   textGlowIntensity: 0,
   textShadowIntensity: 0,
   textGradient: false,

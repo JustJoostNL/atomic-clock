@@ -8,6 +8,11 @@ type TimeSource =
 
 const TIME_SOURCES: TimeSource[] = [
   {
+    url: "https://worldtimeapi.org/api/ip",
+    type: "json",
+    parse: (data: { datetime: string }) => new Date(data.datetime),
+  },
+  {
     url: "https://cloudflare.com/cdn-cgi/trace",
     type: "text",
     parse: (text: string) => {
@@ -15,11 +20,6 @@ const TIME_SOURCES: TimeSource[] = [
       if (!match) throw new Error("Failed to parse Cloudflare time");
       return new Date(Number.parseFloat(match[1]) * 1000);
     },
-  },
-  {
-    url: "https://worldtimeapi.org/api/ip",
-    type: "json",
-    parse: (data: { datetime: string }) => new Date(data.datetime),
   },
 ];
 

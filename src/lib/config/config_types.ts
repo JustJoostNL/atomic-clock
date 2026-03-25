@@ -64,7 +64,6 @@ export interface IConfig {
   clockBorderStyle: BorderStyle;
   clockTickMarksColor: RgbColor;
   clockTickMarksWidthMultiplier: number;
-  // Analog Clock Enhancements
   useRomanNumerals: boolean;
   hideClockNumbers: boolean;
   reverseRotation: boolean;
@@ -77,7 +76,6 @@ export interface IConfig {
   clockFaceGradientEnd: RgbColor;
   handGlowIntensity: number;
   handShadowIntensity: number;
-  // Digital Clock Enhancements
   textGlowIntensity: number;
   textShadowIntensity: number;
   textGradient: boolean;
